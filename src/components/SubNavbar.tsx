@@ -18,7 +18,7 @@ export function SubNavbar({ categories }: Props) {
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
           {categories.map((category) => {
-            const isActive = pathname === `/boutique/${category.slug}`
+            const isActive = pathname === `/category/${category.slug}`
             return (
               <Link
                 key={category.id}

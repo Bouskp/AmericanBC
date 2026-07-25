@@ -91,6 +91,7 @@ async function gracefulFetch<T>(
       `Erreur lors de la récupération des données WooCommerce pour ${endpoint}. Retour de la valeur de secours. Détails de l'erreur:`,
       error,
     )
+    console.log(error)
     return fallbackValue
   }
 }
