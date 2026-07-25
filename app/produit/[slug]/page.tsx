@@ -8,7 +8,7 @@ import {
   productBySlug,
 } from '../../../types/wooCommerceApi'
 
-export const revalidate = 3600 * 24 // Revalidation toutes les 24h
+export const revalidate = 86400 // Revalidation toutes les 24h
 
 export async function generateStaticParams() {
   // Récupère tous les produits pour générer les chemins statiques

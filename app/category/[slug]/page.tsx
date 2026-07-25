@@ -8,7 +8,7 @@ import { FilterSidebar } from '@/components/filter/FilterSideBar'
 import { ProductGrid } from '@/components/ProductGrid'
 import { MobileFilterTrigger } from '@/components/filter/MobileFilter'
 
-export const revalidate = 3600 * 24 // Revalidation toutes les 24h
+export const revalidate = 86400 // Revalidation toutes les 24h
 
 export async function generateStaticParams() {
   const categories = await getAllCategories()
