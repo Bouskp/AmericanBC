@@ -1,8 +1,7 @@
 import './styles/global.css'
 import { Playfair_Display, Inter } from 'next/font/google'
-import { cn } from '@/lib/utils'
-import { NavbarComponent } from '@/components/MobileNavbar'
 import Footer from '@/components/footer'
+import NavbarElement from '@/components/NavBarElement'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -24,8 +23,8 @@ export default function RootLayout({
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
       <body className='antialiased'>
-        <NavbarComponent />
-        <main className='container'>{children}</main>
+        <NavbarElement />
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

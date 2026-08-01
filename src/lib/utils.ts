@@ -16,3 +16,10 @@ export function formatHtmlString(input: string): string {
     .trim()
   return htmlFinalInterpretable
 }
+
+export const mainLinks = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Boutique', href: '/boutique' },
+  { label: 'Nouveautés', href: '/nouveautes' },
+  { label: 'Qui sommes-nous ?', href: '/contact' },
+]

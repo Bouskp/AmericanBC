@@ -104,7 +104,7 @@ export async function NavbarComponent() {
             alt='logo de ABC'
             width={100}
             height={100}
-            className=''
+            className='bg-white'
           />
         </Link>
 

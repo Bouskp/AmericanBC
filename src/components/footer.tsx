@@ -139,19 +139,6 @@ export default function Footer() {
           </h3>
           <ul className='space-y-2 text-sm text-black'>
             <li className='flex items-center gap-2'>
-              <MapPin className='h-4 w-4 text-primary shrink-0' />
-              <span>Cocody, Abidjan, Côte d'Ivoire</span>
-            </li>
-            <li className='flex items-center gap-2'>
-              <Phone className='h-4 w-4 text-primary shrink-0' />
-              <a
-                href='tel:+2250700000000'
-                className='text-black transition-colors'
-              >
-                +225 07 00 00 00 00
-              </a>
-            </li>
-            <li className='flex items-center gap-2'>
               <Mail className='h-4 w-4 text-primary shrink-0' />
               <a
                 href='mailto:contact@votreboutique.com'

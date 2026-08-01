@@ -1,6 +1,4 @@
-import * as React from 'react'
-import { ProductCard } from '@/components/ProductCard'
-import Image from 'next/image'
+import { ProductCard2 } from './produit/ProductCard2'
 
 interface Product {
   id: string
@@ -25,27 +23,26 @@ export function ProductGrid({
   description,
 }: ProductGridProps) {
   if (!products || products.length === 0) {
+    console.log(products[0])
     return (
-      <div className='text-center py-12 border rounded-xl bg-muted/20'>
-        <p className='text-muted-foreground text-sm'>
-          Aucun produit trouvé dans cette collection.
-        </p>
+      <div className='container text-center py-12 border rounded-xl bg-muted/20'>
+        <p className='text-sm'>Aucun produit trouvé dans cette collection.</p>
       </div>
     )
   }
 
   return (
-    <div className='w-full space-y-6'>
+    <div className='container w-full space-y-6'>
       {/* En-tête de la grille (Optionnel) */}
       {(title || description) && (
         <div className='flex flex-col gap-1'>
           {title && (
-            <h2 className='text-xl md:text-2xl font-bold  text-black'>
+            <h2 className='text-xl md:text-2xl font-bold  text-brand-red uppercase font-serif'>
               {title}
             </h2>
           )}
           {description && (
-            <p className='text-base text-muted-foreground'>{description}</p>
+            <p className='text-xl text-muted-foreground'>{description}</p>
           )}
         </div>
       )}
@@ -60,15 +57,12 @@ export function ProductGrid({
       */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {products.map((product) => (
-          <ProductCard
+          <ProductCard2
             key={product.id}
-            id={product.id}
             name={product.name}
             price={product.price}
             slug={product.slug}
-            onSale={product.onSale}
-            oldPrice={product.oldPrice}
-            image={product.imageUrl}
+            imageUrl={product.imageUrl}
           />
         ))}
       </div>

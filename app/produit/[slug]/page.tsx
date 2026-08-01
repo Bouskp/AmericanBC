@@ -29,7 +29,7 @@ export default async function ProductPage({
     ...productResponse,
     images: productResponse?.images.map((img) => img.src) || [],
     id: String(productResponse?.id),
-    name: productResponse?.name || '',
+    name: productResponse?.name || '',  
   }
 
   // Si le slug ne correspond à aucun de vos produits, on renvoie une page 404 propre
