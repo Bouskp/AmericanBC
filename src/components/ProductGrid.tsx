@@ -23,7 +23,6 @@ export function ProductGrid({
   description,
 }: ProductGridProps) {
   if (!products || products.length === 0) {
-    console.log(products[0])
     return (
       <div className='container text-center py-12 border rounded-xl bg-muted/20'>
         <p className='text-sm'>Aucun produit trouvé dans cette collection.</p>
@@ -63,6 +62,7 @@ export function ProductGrid({
             price={product.price}
             slug={product.slug}
             imageUrl={product.imageUrl}
+            id={product.id.toString()}
           />
         ))}
       </div>

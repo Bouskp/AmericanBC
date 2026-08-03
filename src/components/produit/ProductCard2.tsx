@@ -1,12 +1,13 @@
 'use client'
 
-import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Plus, ShoppingBag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useCartStore } from '../../../store/useCartStore'
 
 interface ProductCardProps {
+  id: string
   name: string
   price: string
   slug: string
@@ -15,12 +16,28 @@ interface ProductCardProps {
 }
 
 export function ProductCard2({
+  id,
   name,
   price,
   slug,
   imageUrl,
   category,
 }: ProductCardProps) {
+  const addItem = useCartStore((state) => state.addItem)
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault() // Évite de déclencher le lien de la carte lors du clic sur le bouton
+
+    // On pousse l'article dans le panier global
+    addItem({
+      id,
+      name,
+      price: Number(price), // Converti en nombre pour les calculs du panier
+      slug,
+      imageUrl: imageUrl,
+      category,
+    })
+  }
   return (
     <div className='group relative flex flex-col gap-4 bg-white p-2 rounded-3xl transition-all duration-500 hover:shadow-2xl hover:shadow-zinc-200/50'>
       {/* ─── ZONE IMAGE : PORTRAIT 4/5 ─── */}
@@ -72,6 +89,7 @@ export function ProductCard2({
             size='sm'
             variant='outline'
             className='h-10 px-4 rounded-full border-none hover:bg-brand-gold hover:text-white hover:border-zinc-900 transition-all duration-300 group/btn gap-2'
+            onClick={handleAddToCart}
           >
             <Plus className='h-4 w-4 transition-transform group-hover/btn:rotate-90' />
             <span className='text-xs font-bold uppercase tracking-tight'>

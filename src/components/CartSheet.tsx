@@ -12,31 +12,15 @@ import {
   SheetFooter,
   SheetDescription,
 } from '@/components/ui/sheet'
+import { useCartStore } from '../../store/useCartStore'
+import { use } from 'react'
 
 // Données fictives du panier (à lier avec votre Zustand ou CoCart)
-const cartItems = [
-  {
-    id: '1',
-    name: 'T-Shirt Premium Headless',
-    price: 15000,
-    quantity: 1,
-    image: '/images/p1.jpg',
-  },
-  {
-    id: '2',
-    name: 'Chaussures Sport Run',
-    price: 45000,
-    quantity: 2,
-    image: '/images/p2.jpg',
-  },
-]
 
 export function CartSheet() {
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  )
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const cartItems = useCartStore((state) => state.items)
+  const totalItems = useCartStore((state) => state.getTotalItems())
+  const totalPrice = useCartStore((state) => state.getTotalPrice())
 
   return (
     <Sheet>
@@ -48,11 +32,11 @@ export function CartSheet() {
           aria-label='Ouvrir le panier'
         >
           <ShoppingCart className='size-7' />
-          {totalItems > 0 && (
-            <span className='absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-black text-[10px] text-white'>
+          {
+            <span className='absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-brand-red text-[10px] text-white'>
               {totalItems}
             </span>
-          )}
+          }
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -87,7 +71,12 @@ export function CartSheet() {
                   <div className='flex items-center gap-3'>
                     {/* Conteneur Image Produit */}
                     <div className='relative h-16 w-16 rounded-md bg-abc-charcoal flex items-center justify-center text-[10px] overflow-hidden shrink-0'>
-                      IMG
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.name}
+                        fill
+                        className='object-cover'
+                      />
                     </div>
                     <div className='space-y-1'>
                       <h4 className='text-sm font-medium line-clamp-1 max-w-[180px]'>

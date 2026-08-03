@@ -42,7 +42,7 @@ function Logo() {
       </div>
 
       {/* ─── LE NOM DE LA MARQUE : En dessous sur mobile, à droite sur PC ─── */}
-      <span className='text-brand-red tracking-tighter uppercase leading-none text-center text-sm md:text-3xl lg:text-4xl font-bold font-serif'>
+      <span className='text-white tracking-widest uppercase leading-none text-center text-base md:text-3xl lg:text-4xl font-bold font-serif word-spacing-[100px] md:word-spacing-[50px]'>
         AMERICAN’S BEAUTY CENTER
       </span>
     </Link>
@@ -55,14 +55,14 @@ export function Navbar({ categories }: { categories: any[] }) {
   return (
     <header className='sticky top-0 z-50 w-full border-b bg-white'>
       {/* ─── NIVEAU 1 : LOGO & NOM GÉANT (CENTRE) ─── */}
-      <div className='border-b bg-background'>
+      <div className='border-b bg-brand-red'>
         <div className='container relative flex h-24 items-center justify-center px-4 mx-auto'>
           <Logo />
         </div>
       </div>
 
       {/* ─── NIVEAU 2 : ONGLETS PRINCIPAUX & ACTIONS ─── */}
-      <div className='border-b bg-white'>
+      <div className='border-b bg-brand-red text-white'>
         <div className='container flex h-14 items-center justify-between px-4 mx-auto'>
           {/* Menu Mobile Trigger */}
           <div className='md:hidden'>
@@ -121,7 +121,7 @@ export function Navbar({ categories }: { categories: any[] }) {
       </div>
 
       {/* ─── NIVEAU 3 : CATÉGORIES (HORIZONTAL SCROLL) ─── */}
-      <div className='bg-zinc-50 dark:bg-zinc-900/50'>
+      <div className='bg-white text-black'>
         <div className='container mx-auto px-4'>
           <nav className='flex items-center gap-8 h-12 overflow-x-auto no-scrollbar whitespace-nowrap justify-start md:justify-center'>
             {categories.map((cat) => (
