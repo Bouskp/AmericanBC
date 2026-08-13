@@ -10,9 +10,7 @@ export default function ProductGallery({
   images: string[]
   name: string
 }) {
-  const [activeImage, setActiveImage] = React.useState(
-    images[0] || '/images/placeholder.jpg',
-  )
+  const [activeImage, setActiveImage] = React.useState(images[0])
 
   return (
     <div className='space-y-4'>

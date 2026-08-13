@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 
 export default function AboutPage() {
@@ -67,7 +68,7 @@ export default function AboutPage() {
       {/* 3. NOTRE MISSION : Solutions ciblées et routines expertes */}
       <section className='py-16 md:py-24 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center'>
         <div className='space-y-6'>
-          <h2 className='text-3xl font-serif text-slate-900 font-semibold tracking-tight'>
+          <h2 className='text-3xl font-serif text-slate-900 font-semibold tracking-tight md:text-2xl md:text-center'>
             Des réponses précises aux besoins de votre peau
           </h2>
           <p className='text-slate-600 leading-relaxed'>
@@ -98,24 +99,24 @@ export default function AboutPage() {
         {/* Mosaïque visuelle cosmétique */}
         <div className='grid grid-cols-2 gap-4'>
           <div className='space-y-4'>
-            <img
+            <Image
               src='https://unsplash.com'
               alt='Soins dermatologiques américains'
               className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
             />
-            <img
+            <Image
               src='https://unsplash.com'
               alt='Texture sérum actif'
               className='rounded-lg w-full aspect-square object-cover shadow-sm'
             />
           </div>
           <div className='space-y-4 pt-8'>
-            <img
+            <Image
               src='https://unsplash.com'
               alt='Gamme cosmétique de marque'
               className='rounded-lg w-full aspect-square object-cover shadow-sm'
             />
-            <img
+            <Image
               src='https://unsplash.com'
               alt='Consultation routine beauté'
               className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
@@ -133,7 +134,7 @@ export default function AboutPage() {
               <div className='text-brand-red font-serif text-2xl font-bold'>
                 🔬 Ingrédients Actifs
               </div>
-              <h3 className='font-serif text-lg text-slate-900 font-medium'>
+              <h3 className='font-serif text-lg text-center text-slate-900 font-medium'>
                 Une sélection scientifique
               </h3>
               <p className='text-sm text-slate-600 leading-relaxed'>
@@ -145,10 +146,10 @@ export default function AboutPage() {
 
             {/* Pilier 2 */}
             <div className='bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-4'>
-              <div className='text-brand-red font-serif text-2xl font-bold'>
+              <div className='text-brand-red font-serif text-2xl font-bold md:text-xl md:text-center'>
                 ✨ Conseils sur-mesure
               </div>
-              <h3 className='font-serif text-lg text-slate-900 font-medium'>
+              <h3 className='font-serif text-lg text-slate-900 font-medium md:text-xl md:text-center'>
                 Votre routine pas à pas
               </h3>
               <p className='text-sm text-slate-600 leading-relaxed'>
