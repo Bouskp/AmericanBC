@@ -17,13 +17,13 @@ export default function ProductGallery({
   return (
     <div className='space-y-4'>
       {/* Image Principale de la fiche */}
-      <div className='relative aspect-square w-full rounded-2xl bg-zinc-50 dark:bg-zinc-900 overflow-hidden border border-muted/50'>
+      <div className='relative aspect-square w-full rounded-2xl overflow-hidden border border-muted/50'>
         <Image
           src={activeImage}
           alt={name}
           fill
           sizes='(max-w-md) 100vw, 50vw'
-          className='object-cover object-center'
+          className='object-contain object-center'
           priority // Améliore le score LCP (Largest Contentful Paint) du SEO
         />
       </div>
@@ -45,7 +45,7 @@ export default function ProductGallery({
                 src={img}
                 alt={`${name} - miniature ${index}`}
                 fill
-                className='object-cover'
+                className='object-contain'
               />
             </button>
           ))}

@@ -21,5 +21,5 @@ export const mainLinks = [
   { label: 'Accueil', href: '/' },
   { label: 'Boutique', href: '/boutique' },
   { label: 'Nouveautés', href: '/nouveautes' },
-  { label: 'Qui sommes-nous ?', href: '/contact' },
+  { label: 'Qui sommes-nous ?', href: '/contacts' },
 ]

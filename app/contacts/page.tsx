@@ -1,229 +1,199 @@
-'use client'
+import React from 'react'
 
-import * as React from 'react'
-import { Phone, Mail, MapPin, MessageSquare, Send, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-
-export default function ContactPage() {
-  const [loading, setLoading] = React.useState(false)
-  const [success, setSuccess] = React.useState(false)
-
-  // Message pré-rempli pour l'assistance WhatsApp direct
-  const whatsappMessage = encodeURIComponent(
-    'Bonjour, je vous contacte depuis la boutique concernant une commande.',
-  )
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-
-    // Simulation d'envoi du formulaire (en prod, lié à une API route ou service email)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setLoading(false)
-    setSuccess(true)
-
-    // Réinitialisation du formulaire en production si nécessaire
-  }
-
+export default function AboutPage() {
   return (
-    <div className='container mx-auto px-4 py-8 md:py-16 max-w-5xl'>
-      {/* EN-TÊTE DE PAGE */}
-      <div className='text-center max-w-xl mx-auto mb-12 space-y-2'>
-        <h1 className='text-3xl md:text-5xl font-black tracking-tight '>
-          Contactez-nous
-        </h1>
-        <p className='text-base text-muted-foreground leading-relaxed'>
-          Une question sur l'un de nos produits ou sur votre livraison ? Notre
-          équipe commerciale est à votre entière disposition.
+    <div className='bg-white text-slate-800 font-sans antialiased'>
+      {/* 1. HERO SECTION : L'ancrage local à Abidjan */}
+      <section className='relative py-24 bg-gradient-to-b from-slate-50 to-white overflow-hidden'>
+        <div className='max-w-5xl mx-auto px-6 text-center'>
+          <span className='text-xs uppercase text-brand-red font-bold tracking-widest block mb-4 font-serif'>
+            American's Beauty Center
+          </span>
+          <h1 className='text-4xl md:text-6xl font-serif text-slate-900 font-normal leading-tight max-w-4xl mx-auto'>
+            L'expertise dermatologique américaine <br />
+            <span className='italic font-light text-brand-red'>
+              au cœur d'Abidjan
+            </span>
+          </h1>
+          <p className='mt-6 text-base md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed'>
+            American Beauty Center est une enseigne spécialisée basée à Abidjan,
+            dédiée à la valorisation et à la commercialisation de produits
+            cosmétiques de grandes marques américaines. Pensée pour répondre aux
+            besoins spécifiques de sa clientèle en matière de soins de la peau,
+            la boutique se positionne comme une référence incontournable pour
+            des routines beauté expertes et ciblées.
+          </p>
+        </div>
+      </section>
+
+      {/* 2. BARRE DE RÉASSURANCE & VALEURS PHARES */}
+      <section className='border-y border-slate-100 bg-slate-50/50 py-10'>
+        <div className='max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center'>
+          <div>
+            <h4 className='font-serif text-2xl md:text-3xl text-brand-red font-bold'>
+              100%
+            </h4>
+            <p className='text-xs uppercase tracking-wider text-slate-500 mt-1'>
+              Marques US Authentiques
+            </p>
+          </div>
+          <div>
+            <h4 className='font-serif text-2xl md:text-3xl text-brand-red font-bold'>
+              Sur-mesure
+            </h4>
+            <p className='text-xs uppercase tracking-wider text-slate-500 mt-1'>
+              Accompagnement Conseil
+            </p>
+          </div>
+          <div>
+            <h4 className='font-serif text-2xl md:text-3xl text-brand-red font-bold'>
+              Actifs
+            </h4>
+            <p className='text-xs uppercase tracking-wider text-slate-500 mt-1'>
+              Formules Haute Performance
+            </p>
+          </div>
+          <div>
+            <h4 className='font-serif text-2xl md:text-3xl text-brand-red font-bold'>
+              Boutique
+            </h4>
+            <p className='text-xs uppercase tracking-wider text-slate-500 mt-1'>
+              Disponible en ligne.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. NOTRE MISSION : Solutions ciblées et routines expertes */}
+      <section className='py-16 md:py-24 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center'>
+        <div className='space-y-6'>
+          <h2 className='text-3xl font-serif text-slate-900 font-semibold tracking-tight'>
+            Des réponses précises aux besoins de votre peau
+          </h2>
+          <p className='text-slate-600 leading-relaxed'>
+            Parce que chaque peau est unique, nous refusons les solutions
+            génériques. Notre enseigne se spécialise dans la sélection de soins
+            corporels et cosmétiques importés directement des États-Unis,
+            réputés pour leur rigueur scientifique et leur efficacité
+            dermatologique.
+          </p>
+          <p className='text-slate-600 leading-relaxed'>
+            Nous avons conçu notre offre pour traiter avec précision les
+            problématiques cutanées majeures telles que{' '}
+            <strong className='text-slate-900 font-medium'>
+              l'hyperpigmentation
+            </strong>
+            , <strong className='text-slate-900 font-medium'>l'acné</strong>,{' '}
+            <strong className='text-slate-900 font-medium'>
+              les signes de l'âge
+            </strong>{' '}
+            ou encore le besoin d'une{' '}
+            <strong className='text-slate-900 font-medium'>
+              hydratation intense
+            </strong>
+            .
+          </p>
+        </div>
+
+        {/* Mosaïque visuelle cosmétique */}
+        <div className='grid grid-cols-2 gap-4'>
+          <div className='space-y-4'>
+            <img
+              src='https://unsplash.com'
+              alt='Soins dermatologiques américains'
+              className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
+            />
+            <img
+              src='https://unsplash.com'
+              alt='Texture sérum actif'
+              className='rounded-lg w-full aspect-square object-cover shadow-sm'
+            />
+          </div>
+          <div className='space-y-4 pt-8'>
+            <img
+              src='https://unsplash.com'
+              alt='Gamme cosmétique de marque'
+              className='rounded-lg w-full aspect-square object-cover shadow-sm'
+            />
+            <img
+              src='https://unsplash.com'
+              alt='Consultation routine beauté'
+              className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 4. NOTRE PILIER : L'Approche Conseil Personnalisée */}
+      <section className='bg-slate-50 py-16 md:py-24 border-t border-slate-100'>
+        <div className='max-w-6xl mx-auto px-6'>
+          <div className='grid md:grid-cols-3 gap-8'>
+            {/* Pilier 1 */}
+            <div className='bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-4'>
+              <div className='text-brand-red font-serif text-2xl font-bold'>
+                🔬 Ingrédients Actifs
+              </div>
+              <h3 className='font-serif text-lg text-slate-900 font-medium'>
+                Une sélection scientifique
+              </h3>
+              <p className='text-sm text-slate-600 leading-relaxed'>
+                Rétinol, Vitamine C, Acide Salicylique ou Niacinamide : nous
+                maîtrisons la science des composants pour vous guider vers les
+                formulations les plus adaptées.
+              </p>
+            </div>
+
+            {/* Pilier 2 */}
+            <div className='bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-4'>
+              <div className='text-brand-red font-serif text-2xl font-bold'>
+                ✨ Conseils sur-mesure
+              </div>
+              <h3 className='font-serif text-lg text-slate-900 font-medium'>
+                Votre routine pas à pas
+              </h3>
+              <p className='text-sm text-slate-600 leading-relaxed'>
+                Repartir avec un produit ne suffit pas. Nos conseillères
+                construisent avec vous une véritable routine du matin et du soir
+                pour maximiser vos résultats visibles.
+              </p>
+            </div>
+
+            {/* Pilier 3 */}
+            <div className='bg-white p-8 rounded-xl shadow-sm border border-slate-100 space-y-4'>
+              <div className='text-brand-red font-serif text-2xl font-bold'>
+                🤝 Communauté Active
+              </div>
+              <h3 className='font-serif text-lg text-slate-900 font-medium'>
+                Proches de vous au quotidien
+              </h3>
+              <p className='text-sm text-slate-600 leading-relaxed'>
+                Du lundi au samedi, nous animons nos réseaux sociaux et notre
+                service de social selling pour vous présenter nos nouveautés,
+                décrypter les tendances et répondre à vos questions.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CALL TO ACTION (Redirection boutique / Contact WhatsApp de vente) */}
+      <section className='py-24 text-center max-w-4xl mx-auto px-6'>
+        <h2 className='text-3xl md:text-4xl font-serif text-slate-900'>
+          Envie d'un diagnostic ou de découvrir nos nouveautés ?
+        </h2>
+        <p className='mt-4 text-slate-600 max-w-xl mx-auto'>
+          Suivez nos conseils quotidiens en ligne, découvrez nos offres
+          promotionnelles ou passez nous voir directement en boutique à Abidjan.
         </p>
-      </div>
-
-      {/* DISPOSITION ASYMÉTRIQUE EN 2 COLONNES */}
-      <div className='grid grid-cols-1 md:grid-cols-5 gap-8 items-start'>
-        {/* COLONNE GAUCHE : COORDONNÉES ET WHATSAPP (Prend 2 colonnes sur 5) */}
-        <div className='md:col-span-2 space-y-4'>
-          {/* Bloc d'action rapide WhatsApp (Prioritaire en Afrique Francophone) */}
-          <Card className='border-emerald-600/20 bg-emerald-50/30 dark:bg-emerald-950/10 shadow-sm'>
-            <CardHeader className='p-5 pb-2'>
-              <CardTitle className='text-emerald-700 dark:text-emerald-400 flex items-center gap-2 text-base font-bold'>
-                <MessageSquare className='h-5 w-5' />
-                Assistance WhatsApp
-              </CardTitle>
-              <CardDescription className='text-emerald-600/80 dark:text-emerald-500/80 text-sm'>
-                Le moyen le plus rapide pour obtenir une réponse ou valider une
-                commande.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className='p-5 pt-2'>
-              <Button
-                asChild
-                className='w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold'
-                size='sm'
-              >
-                <a
-                  href={`https://wa.me{whatsappMessage}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Discuter avec un conseiller
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Coordonnées classiques */}
-          <Card className='border-muted/60 shadow-sm'>
-            <CardContent className='p-6 space-y-5'>
-              <div className='flex items-start gap-3.5 text-sm'>
-                <MapPin className='h-5 w-5 text-primary shrink-0 mt-0.5' />
-                <div>
-                  <h4 className='font-bold text-zinc-900 dark:text-zinc'>
-                    Notre Showroom
-                  </h4>
-                  <p className='text-zinc-500 text-xs mt-0.5'>
-                    Cocody, Abidjan, Côte d'Ivoire
-                  </p>
-                </div>
-              </div>
-
-              <div className='flex items-start gap-3.5 text-sm border-t pt-4'>
-                <Phone className='h-5 w-5 text-primary shrink-0 mt-0.5' />
-                <div>
-                  <h4 className='font-bold'>Téléphone</h4>
-                  <a
-                    href='tel:+2250700000000'
-                    className='text-zinc-500 text-xs hover:text-primary transition-colors block mt-0.5'
-                  >
-                    +225 07 00 00 00 00
-                  </a>
-                </div>
-              </div>
-
-              <div className='flex items-start gap-3.5 text-sm border-t pt-4'>
-                <Mail className='h-5 w-5 text-primary shrink-0 mt-0.5' />
-                <div>
-                  <h4 className='font-bold'>Email</h4>
-                  <a
-                    href='mailto:contact@votreboutique.com'
-                    className='text-zinc-500 text-xs hover:text-primary transition-colors block mt-0.5'
-                  >
-                    contact@votreboutique.com
-                  </a>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <div className='mt-10 flex flex-col sm:flex-row gap-4 justify-center'>
+          <button className='bg-brand-red text-white font-medium px-8 py-4 rounded-full hover:bg-slate-900 transition-colors shadow-md tracking-wide text-sm'>
+            Découvrir le catalogue de soins
+          </button>
+          <button className='bg-white text-slate-900 border border-slate-200 font-medium px-8 py-4 rounded-full hover:bg-slate-50 transition-colors shadow-sm tracking-wide text-sm'>
+            Contacter un conseiller expert
+          </button>
         </div>
-
-        {/* COLONNE DROITE : FORMULAIRE DE MESSAGE COMPLÈT (Prend 3 colonnes sur 5) */}
-        <div className='md:col-span-3'>
-          <Card className='border-muted/60 shadow-sm'>
-            <CardHeader>
-              <CardTitle className='text-lg font-bold'>
-                Envoyer un message
-              </CardTitle>
-              <CardDescription>
-                Remplissez ce formulaire et notre équipe vous répondra par
-                e-mail sous 24h.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {success ? (
-                <div className='p-4 text-sm text-center text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-xl'>
-                  <h4 className='font-bold text-base mb-1'>Message envoyé !</h4>
-                  <p className='text-sm'>
-                    Merci pour votre intérêt, nous revenons vers vous très
-                    rapidement.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className='space-y-4'>
-                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                    <div className='space-y-1.5'>
-                      <label className='text-xs font-semibold text-zinc-500'>
-                        Votre Nom complet
-                      </label>
-                      <Input
-                        type='text'
-                        placeholder='Ex: Jean Kouassi'
-                        required
-                        disabled={loading}
-                        className='h-10'
-                      />
-                    </div>
-                    <div className='space-y-1.5'>
-                      <label className='text-xs font-semibold text-zinc-500'>
-                        Numéro de téléphone
-                      </label>
-                      <Input
-                        type='tel'
-                        placeholder='Ex: 0700000000'
-                        required
-                        disabled={loading}
-                        className='h-10'
-                      />
-                    </div>
-                  </div>
-
-                  <div className='space-y-1.5'>
-                    <label className='text-xs font-semibold text-zinc-500'>
-                      Adresse Email
-                    </label>
-                    <Input
-                      type='email'
-                      placeholder='nom@exemple.com'
-                      required
-                      disabled={loading}
-                      className='h-10'
-                    />
-                  </div>
-
-                  <div className='space-y-1.5'>
-                    <label className='text-xs font-semibold text-zinc-500'>
-                      Votre Message
-                    </label>
-                    <Textarea
-                      placeholder='Comment pouvons-nous vous aider ?'
-                      rows={5}
-                      required
-                      disabled={loading}
-                      className='resize-none'
-                    />
-                  </div>
-
-                  <Button
-                    type='submit'
-                    className='w-full h-10 font-bold gap-2'
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 className='h-4 w-4 animate-spin' />
-                        Envoi en cours...
-                      </>
-                    ) : (
-                      <>
-                        <Send className='h-4 w-4' />
-                        Envoyer le message
-                      </>
-                    )}
-                  </Button>
-                </form>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      </section>
     </div>
   )
 }
