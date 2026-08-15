@@ -103,11 +103,13 @@ export default function AboutPage() {
               src='https://unsplash.com'
               alt='Soins dermatologiques américains'
               className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
+              fill
             />
             <Image
               src='https://unsplash.com'
               alt='Texture sérum actif'
               className='rounded-lg w-full aspect-square object-cover shadow-sm'
+              fill
             />
           </div>
           <div className='space-y-4 pt-8'>
@@ -115,11 +117,13 @@ export default function AboutPage() {
               src='https://unsplash.com'
               alt='Gamme cosmétique de marque'
               className='rounded-lg w-full aspect-square object-cover shadow-sm'
+              fill
             />
             <Image
               src='https://unsplash.com'
               alt='Consultation routine beauté'
               className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
+              fill
             />
           </div>
         </div>
