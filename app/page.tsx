@@ -3,7 +3,7 @@ import { PromoBanner } from '@/components/PromoBanner'
 import { ProductGrid } from '@/components/ProductGrid'
 import { getPaginatedProducts } from '../types/wooCommerceApi'
 
-export const revalidate = 86400
+export const revalidate = 3600
 
 export default async function HomePage() {
   const paginatedProducts = await getPaginatedProducts(1, 15) // Récupère les 15 premiers produits
