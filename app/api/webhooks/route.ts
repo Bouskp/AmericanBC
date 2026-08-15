@@ -3,7 +3,7 @@ import { revalidateTag, revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 
-const code = process.env.WC_WEBHOOK_SECRET || ''
+const code = process.env.WOOCOMMERCE_WEBHOOK_SECRET || ''
 
 export async function POST(req: NextRequest) {
   const signature = req.headers.get('x-wc-webhook-signature')
