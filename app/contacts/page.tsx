@@ -1,5 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
+import image1 from '../../src/images/about/consultation.png'
+import image2 from '../../src/images/about/gamme.png'
+import image3 from '../../src/images/about/soins.png'
+import image4 from '../../src/images/about/texture.png'
 
 export default function AboutPage() {
   return (
@@ -76,7 +80,17 @@ export default function AboutPage() {
             génériques. Notre enseigne se spécialise dans la sélection de soins
             corporels et cosmétiques importés directement des États-Unis,
             réputés pour leur rigueur scientifique et leur efficacité
-            dermatologique.
+            dermatologique.{' '}
+            <span className='font-bold text-brand-red'>
+              Nous avons une expérience professionnelle de plus de 5 ans dans la
+              cosmétique.
+            </span>
+            Nous achetons directement les produits chez les fournisseurs B2B
+            directs des États unis🇺🇸 .{' '}
+            <span className='font-bold text-brand-red'>
+              Nous avons 2 dermo-conseillères qui prennent en charge vos
+              problèmes de peau.
+            </span>
           </p>
           <p className='text-slate-600 leading-relaxed'>
             Nous avons conçu notre offre pour traiter avec précision les
@@ -98,33 +112,49 @@ export default function AboutPage() {
 
         {/* Mosaïque visuelle cosmétique */}
         <div className='grid grid-cols-2 gap-4'>
+          {/* Colonne Gauche */}
           <div className='space-y-4'>
-            <Image
-              src='https://unsplash.com'
-              alt='Soins dermatologiques américains'
-              className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
-              fill
-            />
-            <Image
-              src='https://unsplash.com'
-              alt='Texture sérum actif'
-              className='rounded-lg w-full aspect-square object-cover shadow-sm'
-              fill
-            />
+            <div className='relative w-full aspect-[3/4] overflow-hidden rounded-lg shadow-sm'>
+              <Image
+                src={image1}
+                alt='Soins dermatologiques américains'
+                className='block object-cover scale-110 transition-transform duration-300 hover:scale-125'
+                fill
+                sizes='(max-width: 768px) 50vw, 33vw'
+                priority
+              />
+            </div>
+            <div className='relative w-full aspect-square overflow-hidden rounded-lg shadow-sm'>
+              <Image
+                src={image2}
+                alt='Texture sérum actif'
+                className='block object-cover scale-110 transition-transform duration-300 hover:scale-125'
+                fill
+                sizes='(max-width: 768px) 50vw, 33vw'
+              />
+            </div>
           </div>
+
+          {/* Colonne Droite */}
           <div className='space-y-4 pt-8'>
-            <Image
-              src='https://unsplash.com'
-              alt='Gamme cosmétique de marque'
-              className='rounded-lg w-full aspect-square object-cover shadow-sm'
-              fill
-            />
-            <Image
-              src='https://unsplash.com'
-              alt='Consultation routine beauté'
-              className='rounded-lg w-full aspect-[3/4] object-cover shadow-sm'
-              fill
-            />
+            <div className='relative w-full aspect-square overflow-hidden rounded-lg shadow-sm'>
+              <Image
+                src={image3}
+                alt='Gamme cosmétique de marque'
+                className='block object-cover scale-110 transition-transform duration-300 hover:scale-125'
+                fill
+                sizes='(max-width: 768px) 50vw, 33vw'
+              />
+            </div>
+            <div className='relative w-full aspect-[3/4] overflow-hidden rounded-lg shadow-sm'>
+              <Image
+                src={image4}
+                alt='Consultation routine beauté'
+                className='block object-cover scale-110 transition-transform duration-300 hover:scale-125'
+                fill
+                sizes='(max-width: 768px) 50vw, 33vw'
+              />
+            </div>
           </div>
         </div>
       </section>
