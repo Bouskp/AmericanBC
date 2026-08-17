@@ -141,10 +141,10 @@ export default function Footer() {
             <li className='flex items-center gap-2'>
               <Mail className='h-4 w-4 text-primary shrink-0' />
               <a
-                href='mailto:contact@votreboutique.com'
+                href='mailto:americansbeautycenter@gmail.com'
                 className='text-black transition-colors'
               >
-                contact@votreboutique.com
+                americansbeautycenter@gmail.com
               </a>
             </li>
           </ul>

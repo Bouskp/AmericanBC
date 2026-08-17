@@ -7,8 +7,32 @@ import {
 import { FilterSidebar } from '@/components/filter/FilterSideBar'
 import { ProductGrid } from '@/components/ProductGrid'
 import { MobileFilterTrigger } from '@/components/filter/MobileFilter'
+import { Metadata } from 'next'
 
-export const revalidate = 86400 // Revalidation toutes les 24h
+export const revalidate = 3600 // Revalidation toutes les 24h
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const category = await getCategoryBySlug(slug)
+  const seo = category?.yoast_head_json
+
+  return {
+    title: seo?.title || `${category?.name} | AmericansBeautyCenter`,
+    description: seo?.og_description || category?.description,
+    alternates: {
+      canonical: `https://www.americansbeautycenter.com/category/${slug}`,
+    },
+    openGraph: {
+      title: seo?.og_title || seo?.title || category?.name,
+      description: seo?.og_description || category?.description,
+      images: seo?.og_image ? [{ url: seo.og_image[0].url }] : [],
+    },
+  }
+}
 
 export async function generateStaticParams() {
   const categories = await getAllCategories()
@@ -28,7 +52,7 @@ export default async function Page({
     category?.id || 0,
     1,
     15,
-  ) // Récupère les 15 premiers produits de la catégorie
+  )
 
   if (!category) {
     notFound()

@@ -10,16 +10,62 @@ export interface WooCommerceProduct {
   slug: string
   date_modified_gmt: Date
   featured: boolean
+  short_description: string
   images: WooCommerceProductImage[]
   categories: WooCommerceProductCategory[]
   tags: WooCommerceProductTag[]
+  yoast_head_json: {
+    title: string
+    robots: {
+      index: string
+      follow: string
+      maxSnippet: string
+      maxImagePreview: string
+      maxVideoPreview: string
+    }
+    canonical
+    string
+    og_image: {
+      width: number
+      height: number
+      url: string
+      type: string
+    }[]
+    og_locale: string
+    og_type: string
+    og_title: string
+    og_description: string
+  }
 }
 
 interface WooCommerceTaxonomy {
   id: number
   name: string
   slug: string
+  description: string
   type: 'category' | 'tag'
+  yoast_head_json: {
+    title: string
+    robots: {
+      index: string
+      follow: string
+      maxSnippet: string
+      maxImagePreview: string
+      maxVideoPreview: string
+    }
+    canonical
+    string
+    og_image: {
+      width: number
+      height: number
+      url: string
+      type: string
+    }[]
+    og_locale: string
+    og_type: string
+    og_title: string
+    og_description: string
+  }
 }
 
 export interface WooCommerceProductImage {

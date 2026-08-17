@@ -368,15 +368,30 @@ export async function getAllProductsSlug(): Promise<{ slug: string }[]> {
   const allSlugs: { slug: string }[] = []
   let page = 1
   let hasMore = true
+
   while (hasMore) {
-    const response = await woocommercePaginatedFetch<{ slug: string }>(
-      '/wp-json/wc/v3/products',
-      { per_page: 100, page },
-    )
-    allSlugs.push(...response.data.map((product) => ({ slug: product.slug })))
-    hasMore = page < response.pagination.totalPages
-    page++
+    try {
+      const response = await woocommercePaginatedFetch<WooCommerceProduct>(
+        '/wp-json/wc/v3/products',
+        { per_page: 100, page, _fields: 'slug,modified' },
+      )
+
+      if (!Array.isArray(response.data)) {
+        console.error('getAllProductsSlug: réponse inattendue', response)
+        break
+      }
+
+      allSlugs.push(...response.data.map((product) => ({ slug: product.slug })))
+
+      const totalPages = response.pagination?.totalPages ?? 1
+      hasMore = page < totalPages
+      page++
+    } catch (error) {
+      console.error('getAllProductsSlug: erreur fetch page', page, error)
+      break
+    }
   }
+
   return allSlugs
 }
 
@@ -384,14 +399,25 @@ export async function getAllCategoriesSlug(): Promise<{ slug: string }[]> {
   const allSlugs: { slug: string }[] = []
   let page = 1
   let hasMore = true
+
   while (hasMore) {
     const response = await woocommercePaginatedFetch<{ slug: string }>(
       '/wp-json/wc/v3/products/categories',
-      { per_page: 100, page },
+      { per_page: 100, page, _fields: 'slug,modified' },
     )
+
+    if (!Array.isArray(response.data)) {
+      throw new Error(
+        `getAllCategoriesSlug: réponse inattendue à la page ${page}: ${JSON.stringify(response)}`,
+      )
+    }
+
     allSlugs.push(...response.data.map((category) => ({ slug: category.slug })))
-    hasMore = page < response.pagination.totalPages
+
+    const totalPages = response.pagination?.totalPages ?? 1
+    hasMore = page < totalPages
     page++
   }
+
   return allSlugs
 }

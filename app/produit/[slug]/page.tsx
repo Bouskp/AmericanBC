@@ -1,14 +1,39 @@
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import ProductGallery from '@/components/produit/ProductGallery'
 import { ProductInfo } from '@/components/produit/ProductInfo'
-import { ProductGrid } from '@/components/ProductGrid'
 import { Truck, ShieldCheck, RotateCcw } from 'lucide-react'
 import {
   getAllProductsSlug,
   productBySlug,
 } from '../../../types/wooCommerceApi'
 
-export const revalidate = 86400 // Revalidation toutes les 24h
+export const revalidate = 3600 // Revalidation toutes les 24h
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const product = await productBySlug(slug)
+  const seo = product?.yoast_head_json
+
+  return {
+    title: seo?.title || `${product?.name} | AmericansBeautyCenter`,
+    description: product?.short_description,
+    alternates: {
+      canonical:
+        seo?.canonical ||
+        `https://www.americansbeautycenter.com/produit/${slug}`,
+    },
+    openGraph: {
+      title: seo?.og_title || seo?.title || product?.name,
+      description: seo?.og_description || product?.description,
+      images: seo?.og_image ? [{ url: seo.og_image[0].url }] : [],
+    },
+  }
+}
 
 export async function generateStaticParams() {
   // Récupère tous les produits pour générer les chemins statiques
@@ -29,7 +54,7 @@ export default async function ProductPage({
     ...productResponse,
     images: productResponse?.images.map((img) => img.src) || [],
     id: String(productResponse?.id),
-    name: productResponse?.name || '',  
+    name: productResponse?.name || '',
   }
 
   // Si le slug ne correspond à aucun de vos produits, on renvoie une page 404 propre

@@ -2,11 +2,28 @@ import { HeroSlider } from '@/components/HeroSlider'
 import { PromoBanner } from '@/components/PromoBanner'
 import { ProductGrid } from '@/components/ProductGrid'
 import { getPaginatedProducts } from '../types/wooCommerceApi'
+import { Metadata } from 'next'
 
 export const revalidate = 3600
 
+export const metadata: Metadata = {
+  title: 'AmericansBeautyCenter | Soins dermatologiques américains',
+  description:
+    'American Beauty Center est une enseigne spécialisée basée à Abidjan, dédiée à la valorisation et à la commercialisation de produits cosmétiques de grandes marques américaines. Pensée pour répondre aux besoins spécifiques de sa clientèle en matière de soins de la peau, la boutique se positionne comme une référence incontournable pour des routines beauté expertes et ciblées.',
+  alternates: {
+    canonical: 'https://www.americansbeautycenter.com/',
+  },
+  openGraph: {
+    title: 'AmericansBeautyCenter | Soins dermatologiques américains',
+    description:
+      'American Beauty Center est une enseigne spécialisée basée à Abidjan, dédiée à la valorisation et à la commercialisation de produits cosmétiques de grandes marques américaines. Pensée pour répondre aux besoins spécifiques de sa clientèle en matière de soins de la peau, la boutique se positionne comme une référence incontournable pour des routines beauté expertes et ciblées.',
+    images: [{ url: 'https://www.americansbeautycenter.com/og-image.png' }],
+    type: 'website',
+  },
+}
+
 export default async function HomePage() {
-  const paginatedProducts = await getPaginatedProducts(1, 15) // Récupère les 15 premiers produits
+  const paginatedProducts = await getPaginatedProducts(1, 20) // Récupère les 15 premiers produits
 
   const { data, pagination } = paginatedProducts
 

@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import Footer from '@/components/footer'
 import NavbarElement from '@/components/NavBarElement'
 import { CartProvider } from '@/components/cartProvider'
+import { Metadata } from 'next'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -13,6 +14,16 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--inter',
 })
+
+export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://www.americansbeautycenter.com',
+  ),
+  title: {
+    default: 'AmericansBeautyCenter',
+    template: '%s | AmericansBeautyCenter',
+  },
+}
 
 export default function RootLayout({
   children,

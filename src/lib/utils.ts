@@ -23,3 +23,17 @@ export const mainLinks = [
   { label: 'Nouveautés', href: '/nouveautes' },
   { label: 'Qui sommes-nous ?', href: '/contacts' },
 ]
+
+export function presenterMontant(
+  prix: string | number,
+  devise?: string,
+): string {
+  const montant =
+    typeof prix === 'string' ? parseFloat(prix.replace(',', '.')) : prix
+
+  const options: Intl.NumberFormatOptions = devise
+    ? { style: 'currency', currency: devise, minimumFractionDigits: 0 }
+    : { minimumFractionDigits: 0 }
+
+  return new Intl.NumberFormat('fr-FR', options).format(montant)
+}

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { ShoppingBag, CheckCircle2, XCircle } from 'lucide-react'
-import { formatHtmlString } from '@/lib/utils'
+import { formatHtmlString, presenterMontant } from '@/lib/utils'
 
 export function ProductInfo({ product }: { product: any }) {
   const [quantity, setQuantity] = React.useState(1)
@@ -30,7 +30,7 @@ export function ProductInfo({ product }: { product: any }) {
       {/* Prix Converti */}
       <div className='text-2xl font-extrabold text-primary py-1 border-b'>
         {/* <Price amountInXof={Number(product.price)} /> */}
-        {product.price} FCFA
+        {presenterMontant(product.price)} FCFA
       </div>
 
       {/* Description Courte */}
