@@ -54,7 +54,7 @@ export function ProductGrid({
         - lg:grid-cols-5 : 5 produits sur Grands Écrans PC
         - gap-4 : Espace de 16px constant entre les cartes
       */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {products.map((product) => (
           <ProductCard2
             key={product.id}
