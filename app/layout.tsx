@@ -4,6 +4,8 @@ import Footer from '@/components/footer'
 import NavbarElement from '@/components/NavBarElement'
 import { CartProvider } from '@/components/cartProvider'
 import { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -40,6 +42,8 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </CartProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
