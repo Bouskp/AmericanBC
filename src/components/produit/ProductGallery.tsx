@@ -21,7 +21,7 @@ export default function ProductGallery({
           alt={name}
           fill
           sizes='(max-w-md) 100vw, 50vw'
-          className='object-contain object-center'
+          className='object-cover object-center'
           priority // Améliore le score LCP (Largest Contentful Paint) du SEO
         />
       </div>

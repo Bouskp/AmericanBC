@@ -73,7 +73,7 @@ export function ProductCard2({
           )}
 
           {/* Nom du produit (Instrument Serif) */}
-          <h3 className='font-sans  text-lg md:text-xl text-zinc-900 leading-tight text-clamp-2'>
+          <h3 className='font-sans  text-sm md:text-lg text-zinc-900 leading-tight text-clamp-2'>
             <Link href={`/produit/${slug}`}>{name}</Link>
           </h3>
         </div>
