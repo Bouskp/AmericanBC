@@ -39,11 +39,10 @@ export default async function HomePage() {
         products={data?.map((product) => ({
           ...product,
           imageUrl: product.images?.[0]?.src,
-          id: String(product.id),
+          id: product.id.toString(),
           imageAlt: product.name,
+          images: product.images.map((im) => im.src),
         }))}
-        title='Notre Catalogue'
-        description='Découvrez nos produits les plus populaires et profitez de nos offres exceptionnelles.'
       />
 
       {/* 5. BANNIÈRE PROMO INTERMÉDIAIRE */}

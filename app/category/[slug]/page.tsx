@@ -7,9 +7,28 @@ import {
 import { FilterSidebar } from '@/components/filter/FilterSideBar'
 import { ProductGrid } from '@/components/ProductGrid'
 import { MobileFilterTrigger } from '@/components/filter/MobileFilter'
+import SortSelect from '@/components/SortSelect'
 import { Metadata } from 'next'
 
-export const revalidate = 3600 // Revalidation toutes les 24h
+export const revalidate = 3600
+
+function parseSortParam(sort?: string): {
+  orderby?: string
+  order?: 'asc' | 'desc'
+} {
+  switch (sort) {
+    case 'price-asc':
+      return { orderby: 'price', order: 'asc' }
+    case 'price-desc':
+      return { orderby: 'price', order: 'desc' }
+    case 'popularity-desc':
+      return { orderby: 'popularity', order: 'desc' }
+    case 'title-asc':
+      return { orderby: 'title', order: 'asc' }
+    default:
+      return { orderby: 'date', order: 'desc' }
+  }
+}
 
 export async function generateMetadata({
   params,
@@ -43,15 +62,21 @@ export async function generateStaticParams() {
 
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ sort?: string }>
 }) {
   const { slug } = await params
+  const { sort: sortParam } = await searchParams
+  const sort = parseSortParam(sortParam)
+
   const category = await getCategoryBySlug(slug)
   const products = await getProductByCategoryPagination(
     category?.id || 0,
     1,
     20,
+    sort,
   )
 
   if (!category) {
@@ -64,7 +89,6 @@ export default async function Page({
         <p className='text-black text-base'>
           Aucun produit trouvé dans cette catégorie.
         </p>
-
         <p className='text-black text-base'>
           Les produits de cette catégorie sont actuellement indisponibles.
           Veuillez vérifier plus tard ou explorer d'autres catégories pour
@@ -74,40 +98,23 @@ export default async function Page({
     )
   }
 
-  // const filteredProducts = allProducts.filter((p) => p.category === categoryId)
-
   return (
     <div className='container mx-auto px-4 py-8 max-w-6xl'>
-      {/* EN-TÊTE DE LA CATEGORIE */}
       <div className='border-b pb-6 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4'>
         <div className='space-y-1'>
           <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight text-zinc-500 dark:text-zinc-20'>
             {category.name}
           </h1>
         </div>
-
-        {/* Déclencheur des filtres pour Mobile uniquement */}
-        <MobileFilterTrigger />
       </div>
 
-      {/* 
-      AGENCEMENT EN GRILLE :
-      - Sur mobile : 1 seule colonne (la grille de produits prend tout l'espace)
-      - À partir de md (PC) : 2 colonnes (Filtres à gauche [250px], Produits à droite [restant])
-    */}
       <div className='flex flex-col md:flex-row gap-8 items-start'>
-        {/* COLONNE GAUCHE (Filtres PC) - Masquée sur mobile */}
-        <aside className='w-[240px] shrink-0 sticky top-24 hidden md:block'>
-          <FilterSidebar />
-        </aside>
-
-        {/* COLONNE DROITE (Grille de Produits) */}
         <main className='flex-1 w-full'>
           <div className='flex justify-between items-center mb-4 text-base text-muted-foreground'>
             <span>{products.data.length} articles trouvés</span>
+            <SortSelect />
           </div>
 
-          {/* On réutilise notre ProductGrid qui intègre le composant Price converti */}
           <ProductGrid
             products={
               products.data.length > 0
@@ -117,6 +124,7 @@ export default async function Page({
                     price: p.price,
                     imageUrl: p.images?.[0]?.src,
                     imageAlt: p.name,
+                    images: p.images.map((im) => im.src),
                   }))
                 : []
             }

@@ -83,4 +83,11 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+
+  [data-state='open'] {
+    animation-duration: 0.5s !important;
+  }
+  [data-state='closed'] {
+    animation-duration: 0.5s !important;
+  }
 }

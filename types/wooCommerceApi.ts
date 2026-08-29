@@ -326,26 +326,15 @@ export async function getProductImages(
   )
 }
 
-// Pagination helper for products, categories, and tags
-export async function getPaginatedProducts(
-  page: number = 1,
-  perPage: number = 10,
-): Promise<WooCommerceResponse<WooCommerceProduct[]>> {
-  return await woocommercePaginatedFetch<WooCommerceProduct>(
-    '/wp-json/wc/v3/products',
-    { _embed: true, page, per_page: perPage },
-    ['woocommerce', 'products', `products_page_${page}`],
-  )
-}
-
 export async function getProductByCategoryPagination(
   categoryId: number,
   page: number = 1,
   perPage: number = 10,
+  sort: SortParams = {},
 ): Promise<WooCommerceResponse<WooCommerceProduct[]>> {
   return await woocommercePaginatedFetch<WooCommerceProduct>(
     '/wp-json/wc/v3/products',
-    { category: categoryId, _embed: true, page, per_page: perPage },
+    { category: categoryId, _embed: true, page, per_page: perPage, ...sort },
     ['woocommerce', 'products', `category_${categoryId}`, `page_${page}`],
   )
 }
@@ -420,4 +409,125 @@ export async function getAllCategoriesSlug(): Promise<{ slug: string }[]> {
   }
 
   return allSlugs
+}
+
+// `getProductsBy...` — utilise `include` (paramètre standard WooCommerce
+// REST) pour récupérer plusieurs produits par leurs IDs en un seul appel.
+
+export async function getRelatedProducts(
+  productIds: number[],
+): Promise<WooCommerceProduct[]> {
+  if (!productIds.length) {
+    return []
+  }
+
+  return await gracefulFetch<WooCommerceProduct[]>(
+    '/wp-json/wc/v3/products',
+    [],
+    { include: productIds.join(','), _embed: true },
+    ['woocommerce', 'products', `related_${productIds.join('_')}`],
+  )
+}
+
+export async function getBrandAttribute(): Promise<{
+  id: number
+  slug: string
+} | null> {
+  const attributes = await gracefulFetch<{ id: number; slug: string }[]>(
+    '/wp-json/wc/v3/products/attributes',
+    [],
+    {},
+    ['woocommerce', 'attributes'],
+  )
+  return attributes.find((attr) => attr.slug === 'pa_brand') ?? null
+}
+
+export async function getBrandTerms(
+  attributeId: number,
+): Promise<WooCommerceProductTag[]> {
+  return await gracefulFetch<WooCommerceProductTag[]>(
+    `/wp-json/wc/v3/products/attributes/${attributeId}/terms`,
+    [],
+    { per_page: 100 },
+    ['woocommerce', 'brands', `attribute_${attributeId}`],
+  )
+}
+
+export async function getAllBrands(): Promise<WooCommerceProductCategory[]> {
+  return await gracefulFetch<WooCommerceProductCategory[]>(
+    '/wp-json/wc/v3/products/brands',
+    [],
+    { per_page: 100 },
+    ['woocommerce', 'brands'],
+  )
+}
+
+export async function getBrandBySlug(
+  slug: string,
+): Promise<WooCommerceProductCategory | undefined> {
+  const brands = await gracefulFetch<WooCommerceProductCategory[]>(
+    '/wp-json/wc/v3/products/brands',
+    [],
+    { slug, per_page: 100 },
+    ['woocommerce', 'brands', `brand_slug_${slug}`],
+  )
+  return brands[0]
+}
+
+export async function getBrandById(
+  brandId: number,
+): Promise<WooCommerceProductCategory | undefined> {
+  return await gracefulFetch<WooCommerceProductCategory | undefined>(
+    `/wp-json/wc/v3/products/brands/${brandId}`,
+    undefined,
+    {},
+    ['woocommerce', 'brands', `brand_${brandId}`],
+  )
+}
+
+interface SortParams {
+  orderby?: string
+  order?: 'asc' | 'desc'
+}
+
+export async function getPaginatedProducts(
+  page: number = 1,
+  perPage: number = 10,
+  sort: SortParams = {},
+): Promise<WooCommerceResponse<WooCommerceProduct[]>> {
+  return await woocommercePaginatedFetch<WooCommerceProduct>(
+    '/wp-json/wc/v3/products',
+    { _embed: true, page, per_page: perPage, ...sort },
+    ['woocommerce', 'products', `products_page_${page}`],
+  )
+}
+
+export async function getProductByBrandPagination(
+  brandId: number,
+  page: number = 1,
+  perPage: number = 10,
+  sort: SortParams = {},
+): Promise<WooCommerceResponse<WooCommerceProduct[]>> {
+  return await woocommercePaginatedFetch<WooCommerceProduct>(
+    '/wp-json/wc/v3/products',
+    { brand: brandId, _embed: true, page, per_page: perPage, ...sort },
+    ['woocommerce', 'products', `brand_${brandId}`, `page_${page}`],
+  )
+}
+
+export async function getNewsProducts(
+  page: number = 1,
+  perPage: number = 10,
+): Promise<WooCommerceResponse<WooCommerceProduct[]>> {
+  return await woocommercePaginatedFetch<WooCommerceProduct>(
+    '/wp-json/wc/v3/products',
+    {
+      _embed: true,
+      page,
+      per_page: perPage,
+      orderby: 'date',
+      order: 'desc',
+    },
+    ['woocommerce', 'products', 'news', `page_${page}`],
+  )
 }

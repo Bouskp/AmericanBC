@@ -6,6 +6,7 @@ import { CartProvider } from '@/components/cartProvider'
 import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </CartProvider>
+        <WhatsAppButton />
         <Analytics />
         <SpeedInsights />
       </body>

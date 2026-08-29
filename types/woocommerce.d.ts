@@ -9,6 +9,7 @@ export interface WooCommerceProduct {
   price: string
   slug: string
   date_modified_gmt: Date
+  price_html: string
   featured: boolean
   short_description: string
   images: WooCommerceProductImage[]
@@ -36,6 +37,11 @@ export interface WooCommerceProduct {
     og_title: string
     og_description: string
   }
+  related_ids: number[]
+  upsell_ids: number[]
+  contenance: string
+  actifs_cles: string
+  utilisation: string
 }
 
 interface WooCommerceTaxonomy {
@@ -43,6 +49,7 @@ interface WooCommerceTaxonomy {
   name: string
   slug: string
   description: string
+  count: number
   type: 'category' | 'tag'
   yoast_head_json: {
     title: string
