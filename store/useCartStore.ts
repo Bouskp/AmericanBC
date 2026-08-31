@@ -13,7 +13,8 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[]
-  addItem: (product: Omit<CartItem, 'quantity'>) => void
+  // Modification du type : On accepte que la quantité soit passée ou non à l'appel
+  addItem: (product: Omit<CartItem, 'quantity'> & { quantity?: number }) => void
   removeItem: (id: string) => void
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
@@ -26,23 +27,28 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
 
-      // AJOUTER AU PANIER
+      // ─── AJOUTER AU PANIER AVEC QUANTITÉ DYNAMIQUE ───
       addItem: (product) => {
         const currentItems = get().items
         const existingItem = currentItems.find((item) => item.id === product.id)
 
+        // On récupère la quantité demandée (par défaut 1 si non spécifiée, ex: depuis la grille)
+        const quantityToAdd = product.quantity ?? 1
+
         if (existingItem) {
-          // Si le produit existe déjà, on augmente sa quantité de 1
+          // 🚀 On cumule l'ancienne quantité présente avec la nouvelle quantité demandée
           set({
             items: currentItems.map((item) =>
               item.id === product.id
-                ? { ...item, quantity: item.quantity + 1 }
+                ? { ...item, quantity: item.quantity + quantityToAdd }
                 : item,
             ),
           })
         } else {
-          // Sinon, on l'ajoute comme un nouvel élément avec une quantité de 1
-          set({ items: [...currentItems, { ...product, quantity: 1 }] })
+          // 🚀 On ajoute le nouvel élément avec son volume de départ choisi
+          set({
+            items: [...currentItems, { ...product, quantity: quantityToAdd }],
+          })
         }
       },
 
@@ -51,7 +57,7 @@ export const useCartStore = create<CartState>()(
         set({ items: get().items.filter((item) => item.id !== id) })
       },
 
-      // MODIFIER LA QUANTITÉ (PLUS / MOINS)
+      // MODIFIER LA QUANTITÉ EN DIRECT (Depuis la page Panier ou le tiroir CartSheet)
       updateQuantity: (id, quantity) => {
         if (quantity <= 0) {
           get().removeItem(id)
@@ -64,10 +70,10 @@ export const useCartStore = create<CartState>()(
         })
       },
 
-      // VIDER LE PANIER (Après commande réussie)
+      // VIDER LE PANIER (Après commande réussie ou paiement CinetPay validé)
       clearCart: () => set({ items: [] }),
 
-      // CALCULER LE PRIX TOTAL GLOBAL
+      // CALCULER LE PRIX TOTAL GLOBAL (FCFA / XOF)
       getTotalPrice: () => {
         return get().items.reduce(
           (total, item) => total + item.price * item.quantity,
@@ -75,13 +81,13 @@ export const useCartStore = create<CartState>()(
         )
       },
 
-      // CALCULER LE NOMBRE TOTAL D'ARTICLES (Pour le badge de la Navbar)
+      // CALCULER LE NOMBRE TOTAL D'ARTICLES (Pour l'indicateur linéaire de votre Navbar)
       getTotalItems: () => {
         return get().items.reduce((total, item) => total + item.quantity, 0)
       },
     }),
     {
-      name: 'americans-beauty-cart', // Clé de stockage unique dans le localStorage
+      name: 'americans-beauty-cart', // Clé locale dans le localStorage de l'utilisateur
     },
   ),
 )

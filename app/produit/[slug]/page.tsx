@@ -50,7 +50,6 @@ export default async function ProductPage({
   const { slug } = await params
   const productResponse = await productBySlug(slug)
 
-  // 404 propre AVANT de construire quoi que ce soit à partir de la réponse
   if (!productResponse) {
     notFound()
   }
@@ -77,7 +76,12 @@ export default async function ProductPage({
 
           {/* Informations produit */}
           <div className='space-y-8 pb-24 md:pb-0'>
-            <ProductInfo product={product} />
+            <ProductInfo
+              product={{
+                ...product,
+                imageUrl: product.images?.[0],
+              }}
+            />
 
             {/* Réassurance */}
             <div className='grid grid-cols-1 gap-4  pt-6 text-xs text-black sm:grid-cols-3'>

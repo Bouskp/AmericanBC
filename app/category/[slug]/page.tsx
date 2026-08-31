@@ -4,9 +4,7 @@ import {
   getCategoryBySlug,
   getProductByCategoryPagination,
 } from '../../../types/wooCommerceApi'
-import { FilterSidebar } from '@/components/filter/FilterSideBar'
 import { ProductGrid } from '@/components/ProductGrid'
-import { MobileFilterTrigger } from '@/components/filter/MobileFilter'
 import SortSelect from '@/components/SortSelect'
 import { Metadata } from 'next'
 

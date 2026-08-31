@@ -38,7 +38,7 @@ export function ProductCard2({
   }
 
   return (
-    <div className='group relative flex flex-col bg-white border border-transparent rounded-none transition-all duration-300 text-left'>
+    <div className='group relative flex flex-col bg-white border border-transparent rounded-lg transition-all duration-300 text-left'>
       {/* ─── ZONE IMAGE : PROPRE, CARRÉE OU PORTRAIT SANS COINS ARRONDIS ─── */}
       <Link
         href={`/produit/${slug}`}

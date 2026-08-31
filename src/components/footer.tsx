@@ -147,6 +147,34 @@ export default function Footer() {
                 americansbeautycenter@gmail.com
               </a>
             </li>
+            <li className='flex items-center gap-2'>
+              <Phone className='h-4 w-4 text-primary shrink-0' />
+              <div className='flex flex-col'>
+                <a
+                  href='tel:+2250707879292'
+                  className='text-black transition-colors'
+                >
+                  +225 07 07 87 92 92
+                </a>
+                <a
+                  href='tel:+2250706353917'
+                  className='text-black transition-colors'
+                >
+                  +225 07 06 35 39 17
+                </a>
+              </div>
+            </li>
+            <li className='flex items-start gap-2'>
+              <MapPin className='h-4 w-4 text-primary shrink-0 mt-0.5' />
+              <a
+                href='https://www.google.com/maps/place/?q=place_id:ChIJExxA4GvtwQ8R4XIpeIkR-K4'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-black transition-colors'
+              >
+                Rte d'Abatta, Abidjan, Côte d'Ivoire
+              </a>
+            </li>
           </ul>
         </div>
       </div>

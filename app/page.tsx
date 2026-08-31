@@ -35,15 +35,19 @@ export default async function HomePage() {
       </section>
 
       {/* 2. GRILLE DE PRODUITS */}
-      <ProductGrid
-        products={data?.map((product) => ({
-          ...product,
-          imageUrl: product.images?.[0]?.src,
-          id: product.id.toString(),
-          imageAlt: product.name,
-          images: product.images.map((im) => im.src),
-        }))}
-      />
+      <div className='w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
+        <ProductGrid
+          title='les derniers ajouts'
+          description='les produits de qualité'
+          products={data?.map((product) => ({
+            ...product,
+            imageUrl: product.images?.[0]?.src,
+            id: product.id.toString(),
+            imageAlt: product.name,
+            images: product.images.map((im) => im.src),
+          }))}
+        />
+      </div>
 
       {/* 5. BANNIÈRE PROMO INTERMÉDIAIRE */}
       <section className='container mx-auto px-4'>

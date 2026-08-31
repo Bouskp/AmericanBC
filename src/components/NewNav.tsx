@@ -21,6 +21,7 @@ import {
   SheetTrigger,
   SheetHeader,
   SheetTitle,
+  SheetClose,
 } from '@/components/ui/sheet'
 
 function Logo() {
@@ -42,7 +43,7 @@ function Logo() {
       </div>
 
       {/* ─── LE NOM DE LA MARQUE : En dessous sur mobile, à droite sur PC ─── */}
-      <span className='text-white tracking-widest uppercase leading-none text-center text-base md:text-3xl lg:text-4xl font-bold font-serif word-spacing-[100px] md:word-spacing-[50px]'>
+      <span className='text-brand-red tracking-widest uppercase leading-none text-center text-base md:text-3xl lg:text-4xl font-bold font-serif word-spacing-[100px] md:word-spacing-[50px]'>
         AMERICAN’S BEAUTY CENTER
       </span>
     </Link>
@@ -53,16 +54,16 @@ export function Navbar({ categories }: { categories: any[] }) {
   const pathname = usePathname()
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-white'>
+    <header className='sticky top-0 z-50 w-full border-b'>
       {/* ─── NIVEAU 1 : LOGO & NOM GÉANT (CENTRE) ─── */}
-      <div className='border-b bg-brand-red'>
+      <div className='border-b bg-white'>
         <div className='container relative flex h-24 items-center justify-center px-4 mx-auto'>
           <Logo />
         </div>
       </div>
 
       {/* ─── NIVEAU 2 : ONGLETS PRINCIPAUX & ACTIONS ─── */}
-      <div className='border-b bg-brand-red text-white'>
+      <div className='border-b bg-black text-white'>
         <div className='container flex h-14 items-center justify-between px-4 mx-auto'>
           {/* Menu Mobile Trigger */}
           <div className='md:hidden'>
@@ -74,19 +75,21 @@ export function Navbar({ categories }: { categories: any[] }) {
               </SheetTrigger>
               <SheetContent side='left'>
                 <SheetHeader>
-                  <SheetTitle className='text-sm text-brand-red uppercase text-center font-bold tracking-widest mt-6 font-serif'>
+                  <SheetTitle className='text-sm text-white uppercase text-center font-bold tracking-widest mt-6 font-serif'>
                     American's Beauty Center
                   </SheetTitle>
                 </SheetHeader>
                 <nav className='flex flex-col gap-4 mt-8'>
                   {mainLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className='text-lg font-bold border-b pb-2 text-center'
-                    >
-                      {link.label}
-                    </Link>
+                    <SheetClose asChild>
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className='text-lg font-bold border-b pb-2 text-center'
+                      >
+                        {link.label}
+                      </Link>
+                    </SheetClose>
                   ))}
                 </nav>
               </SheetContent>

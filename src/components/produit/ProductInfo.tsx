@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { presenterMontant } from '@/lib/utils'
+import { useCartStore } from '../../../store/useCartStore'
 
 type WooAttribute = {
   name: string
@@ -43,6 +44,7 @@ type Product = {
   contenance: string
   actifs_cles: string
   utilisation: string
+  imageUrl: string
 }
 
 function AccordionDemo({
@@ -87,6 +89,17 @@ function StarRating({ rating, count }: { rating: number; count?: number }) {
 
 export function ProductInfo({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1)
+  const addItem = useCartStore((state) => state.addItem)
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: Number(isOnSale ? product.sale_price : product.price || 0),
+      slug: product.name,
+      imageUrl: product.imageUrl,
+      quantity,
+    })
+  }
 
   const rating = Number(product.average_rating ?? 2)
   const hasReviews = (product.rating_count ?? 0) > 0
@@ -190,6 +203,7 @@ export function ProductInfo({ product }: { product: Product }) {
           type='button'
           disabled={!inStock}
           className='h-11 flex-1 rounded-full bg-[#2B4235] px-6 text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2] transition hover:bg-[#233529] disabled:cursor-not-allowed disabled:bg-[#231F1A]/20 disabled:text-[#231F1A]/50'
+          onClick={handleAddToCart}
         >
           {inStock ? 'Ajouter au panier' : 'Rupture de stock'}
         </button>
