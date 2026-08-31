@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
+import { presenterMontant } from '@/lib/utils'
 
 type RelatedProduct = {
   id: number
@@ -20,11 +21,14 @@ function RelatedProductCard({ product }: { product: RelatedProduct }) {
   const isOnSale = Boolean(
     product.on_sale && product.sale_price && product.regular_price,
   )
-  const rating = Number(product.average_rating ?? 0)
+  const rating = Number(product.average_rating ? product.average_rating : 2)
 
   return (
-    <Link href={`/produit/${product.slug}`} className='group flex flex-col'>
-      <div className='relative aspect-square overflow-hidden rounded-2xl bg-[#F1EBE1]'>
+    <Link
+      href={`/produit/${product.slug}`}
+      className='group flex flex-col border-black/20 border rounded-sm'
+    >
+      <div className='relative aspect-square overflow-hidden rounded-2xl bg-white'>
         {image && (
           <Image
             src={image}
@@ -41,7 +45,7 @@ function RelatedProductCard({ product }: { product: RelatedProduct }) {
         )}
       </div>
 
-      <div className='mt-3 space-y-1'>
+      <div className='mt-3 space-y-1 px-px'>
         {rating > 0 && (
           <div className='flex items-center gap-1'>
             {Array.from({ length: 5 }).map((_, i) => (
@@ -61,7 +65,7 @@ function RelatedProductCard({ product }: { product: RelatedProduct }) {
           </div>
         )}
 
-        <h3 className="line-clamp-2 font-['Fraunces',_serif] text-[15px] leading-snug text-[#231F1A]">
+        <h3 className='line-clamp-2 font-serif text-[15px] leading-snug text-black'>
           {product.name}
         </h3>
 
@@ -69,15 +73,15 @@ function RelatedProductCard({ product }: { product: RelatedProduct }) {
           {isOnSale ? (
             <>
               <span className='text-sm font-semibold text-[#E2735C]'>
-                {product.sale_price} FCFA
+                {presenterMontant(product.sale_price || 0)} FCFA
               </span>
               <span className='text-xs text-[#231F1A]/40 line-through'>
-                {product.regular_price} FCFA
+                {presenterMontant(product.regular_price || 0)} FCFA
               </span>
             </>
           ) : (
             <span className='text-sm font-semibold text-[#231F1A]'>
-              {product.price} FCFA
+              {presenterMontant(product.price || 0)} FCFA
             </span>
           )}
         </div>

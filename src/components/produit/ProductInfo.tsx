@@ -91,6 +91,7 @@ export function ProductInfo({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1)
   const addItem = useCartStore((state) => state.addItem)
   const handleAddToCart = () => {
+    // Ajout dans le panier avec la quantité sélectionnée
     addItem({
       id: product.id,
       name: product.name,
