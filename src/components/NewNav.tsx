@@ -105,7 +105,7 @@ export function Navbar({ categories }: { categories: any[] }) {
                     <NavigationMenuLink asChild active={pathname === link.href}>
                       <Link
                         href={link.href}
-                        className={`${navigationMenuTriggerStyle()} uppercase text-[px] font-extrabold tracking-widest font-sans`}
+                        className={`${navigationMenuTriggerStyle()} uppercase font-extrabold tracking-widest font-sans`}
                       >
                         {link.label}
                       </Link>
@@ -131,7 +131,7 @@ export function Navbar({ categories }: { categories: any[] }) {
               <Link
                 key={cat.name}
                 href={cat.href}
-                className={`text-[px] uppercase font-black tracking-widest hover:text-primary transition-colors font-serif ${
+                className={`uppercase font-black tracking-widest hover:text-primary transition-colors font-serif ${
                   pathname === cat.href
                     ? 'text-primary border-b-2 border-primary'
                     : 'text-muted-foreground'

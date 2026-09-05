@@ -3,6 +3,7 @@ import {
   Phone,
   Mail,
   MapPin,
+  Clock,
   ShieldCheck,
   Truck,
   RefreshCw,
@@ -111,7 +112,7 @@ export default function Footer() {
         {/* Colonne 3 : Liens d'assistance légale */}
         <div className='space-y-3'>
           <h3 className='font-bold text-sm text-black uppercase tracking-wider'>
-            Assistance
+            Service Clients
           </h3>
           <ul className='space-y-2 text-sm'>
             <li>
@@ -174,6 +175,10 @@ export default function Footer() {
               >
                 Rte d'Abatta, Abidjan, Côte d'Ivoire
               </a>
+            </li>
+            <li className='flex items-start gap-2'>
+              <Clock className='h-4 w-4 text-primary shrink-0 mt-0.5' />
+              <span className='text-black'>Lundi au Samedi de 9h à 19h</span>
             </li>
           </ul>
         </div>
