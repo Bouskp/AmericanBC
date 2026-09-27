@@ -17,7 +17,8 @@ export function getAppUrl(): string {
     return process.env.NGROK_URL
   }
 
-  const prodUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL
+  const prodUrl =
+    process.env.NEXT_PUBLIC_APP_URL || process.env.WOOCOMMERCE_SITE_URL
   if (!prodUrl) {
     throw new Error('APP_URL manquant en production')
   }
