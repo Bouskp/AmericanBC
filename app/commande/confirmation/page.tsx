@@ -1,5 +1,6 @@
+// app/commande/confirmation/page.tsx
 'use client'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 type OrderInfo = {
@@ -8,7 +9,7 @@ type OrderInfo = {
   paymentMethod: string
 }
 
-export default function SuccessPage() {
+function ConfirmationContent() {
   const params = useSearchParams()
   const orderId = params.get('order_id')
   const [order, setOrder] = useState<OrderInfo | null>(null)
@@ -93,5 +94,19 @@ export default function SuccessPage() {
         commande.
       </p>
     </div>
+  )
+}
+
+export default function ConfirmationPage() {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ textAlign: 'center', padding: '4rem' }}>
+          <p>Chargement…</p>
+        </div>
+      }
+    >
+      <ConfirmationContent />
+    </Suspense>
   )
 }

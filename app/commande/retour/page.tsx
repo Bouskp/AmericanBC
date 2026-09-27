@@ -1,10 +1,9 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function ReturnPage() {
+function ReturnContent() {
   const params = useSearchParams()
-  console.log(params)
   const transactionId = params.get('transaction_id')
   const [status, setStatus] = useState<'pending' | 'processing' | 'failed'>(
     'pending',
@@ -33,4 +32,12 @@ export default function ReturnPage() {
   if (status === 'pending') return <p>Vérification du paiement en cours…</p>
   if (status === 'processing') return <p>✅ Paiement confirmé, merci !</p>
   return <p>❌ Le paiement a échoué ou a été annulé.</p>
+}
+
+export default function ReturnPage() {
+  return (
+    <Suspense fallback={<p>Chargement…</p>}>
+      <ReturnContent />
+    </Suspense>
+  )
 }
