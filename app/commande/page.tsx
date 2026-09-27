@@ -42,27 +42,28 @@ export default function CheckoutPage() {
     setError(null)
 
     try {
-      const res = await fetch('/api/checkout', {
+      const res = await fetch('/api/paiement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           cart: cartItems,
           customer,
-          payment_method: paymentMethod,
+          paymentMethod,
           total,
         }),
       })
 
       const data = await res.json()
+      console.log(data)
 
       if (!res.ok) {
         throw new Error(data.error || 'Une erreur est survenue')
       }
 
       if (paymentMethod === 'cinetpay') {
-        window.location.href = data.payment_url
+        window.location.href = data.paymentUrl
       } else {
-        router.push(`/checkout/confirmation?order_id=${data.order_id}`)
+        router.push(`/commande/confirmation?order_id=${data.orderId}`)
       }
     } catch (err: any) {
       setError(err.message)

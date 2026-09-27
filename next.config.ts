@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ['glitch-idealness-ragged.ngrok-free.dev'],
 }
 
 export default nextConfig

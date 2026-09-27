@@ -1,4 +1,4 @@
-import { revalidateTag, revalidatePath } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 
@@ -7,7 +7,6 @@ const code = process.env.WOOCOMMERCE_WEBHOOK_SECRET || ''
 export async function POST(req: NextRequest) {
   const signature = req.headers.get('x-wc-webhook-signature')
   const body = await req.text()
-  console.log(code, signature)
 
   // Vérification de la signature WooCommerce
   const hash = crypto.createHmac('sha256', code).update(body).digest('base64')

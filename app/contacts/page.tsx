@@ -11,7 +11,7 @@ export default function AboutPage() {
       {/* 1. HERO SECTION : L'ancrage local à Abidjan */}
       <section className='relative py-24 bg-gradient-to-b from-slate-50 to-white overflow-hidden'>
         <div className='max-w-5xl mx-auto px-6 text-center'>
-          <span className='text-xs uppercase text-brand-red font-bold tracking-widest block mb-4 font-serif'>
+          <span className='text-lg  md:text-2xl uppercase text-brand-red font-bold tracking-widest block mb-4 font-serif'>
             American's Beauty Center
           </span>
           <h1 className='text-4xl md:text-6xl font-serif text-slate-900 font-normal leading-tight max-w-4xl mx-auto'>
