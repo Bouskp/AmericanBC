@@ -13,6 +13,7 @@ export const client = new CinetPayClient({
     },
   },
   debug: true,
+  forceIPv4: true,
 })
 
 function buildMerchantTransactionId(orderId: number) {
