@@ -20,7 +20,6 @@ export function formatHtmlString(input: string): string {
 export const mainLinks = [
   { label: 'Accueil', href: '/' },
   { label: 'Boutique', href: '/boutique' },
-  { label: 'En gros', href: '/en-gros' },
   { label: 'Qui sommes-nous ?', href: '/contacts' },
 ]
 

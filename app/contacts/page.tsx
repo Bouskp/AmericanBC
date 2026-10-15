@@ -15,7 +15,7 @@ export default function AboutPage() {
             American's Beauty Center
           </span>
           <h1 className='text-4xl md:text-6xl font-serif text-slate-900 font-normal leading-tight max-w-4xl mx-auto'>
-            L'expertise cosmétique américaine, UK <br />
+            L'expertise cosmétique américaine, UK, Italie <br />
             <span className='italic font-light text-brand-red'>
               au cœur d'Abidjan
             </span>
@@ -23,10 +23,11 @@ export default function AboutPage() {
           <p className='mt-6 text-base md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed'>
             American Beauty Center est une enseigne spécialisée basée à Abidjan,
             dédiée à la valorisation et à la commercialisation de produits
-            cosmétiques de grandes marques américaines. Pensée pour répondre aux
-            besoins spécifiques de sa clientèle en matière de soins de la peau,
-            la boutique se positionne comme une référence incontournable pour
-            des routines beauté expertes et ciblées.
+            cosmétiques de grandes marques américaines, britanniques,
+            italiennes. Pensée pour répondre aux besoins spécifiques de sa
+            clientèle en matière de soins de la peau, la boutique se positionne
+            comme une référence incontournable pour des routines beauté expertes
+            et ciblées.
           </p>
         </div>
       </section>

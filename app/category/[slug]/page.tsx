@@ -73,7 +73,7 @@ export default async function Page({
   const products = await getProductByCategoryPagination(
     category?.id || 0,
     1,
-    20,
+    30,
     sort,
   )
 
