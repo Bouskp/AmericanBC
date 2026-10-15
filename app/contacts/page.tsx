@@ -15,7 +15,7 @@ export default function AboutPage() {
             American's Beauty Center
           </span>
           <h1 className='text-4xl md:text-6xl font-serif text-slate-900 font-normal leading-tight max-w-4xl mx-auto'>
-            L'expertise dermatologique américaine <br />
+            L'expertise cosmétique américaine, UK <br />
             <span className='italic font-light text-brand-red'>
               au cœur d'Abidjan
             </span>

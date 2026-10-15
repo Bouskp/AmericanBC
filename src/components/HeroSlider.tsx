@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import Autoplay from 'embla-carousel-autoplay'
 import {
@@ -11,6 +10,8 @@ import {
 } from '@/components/ui/carousel'
 import banner2 from '../images/banner2.png'
 import banner3 from '../images/banner3.png'
+import banner4 from '../images/banner4.jpeg'
+import banner5 from '../images/banner5.jpeg'
 
 const slides = [
   {
@@ -41,6 +42,26 @@ const slides = [
     cta: 'Découvrir nos produits',
     href: '/category/tous-les-produits',
     imageUrl: banner3,
+    bgClass: '',
+  },
+  {
+    id: 4,
+    title: 'Livraison Rapide à Abidjan',
+    description:
+      "Commandez aujourd'hui et recevez votre colis chez vous sous 24h à 48h.",
+    cta: 'Acheter maintenant',
+    href: '/category/tous-les-produits',
+    imageUrl: banner4,
+    bgClass: '',
+  },
+  {
+    id: 2,
+    title: 'Livraison Rapide à Abidjan',
+    description:
+      "Commandez aujourd'hui et recevez votre colis chez vous sous 24h à 48h.",
+    cta: 'Acheter maintenant',
+    href: '/category/tous-les-produits',
+    imageUrl: banner5,
     bgClass: '',
   },
 ]

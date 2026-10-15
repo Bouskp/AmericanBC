@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const paginatedProducts = await getPaginatedProducts(1, 20) // Récupère les 15 premiers produits
+  const paginatedProducts = await getPaginatedProducts(1, 25) // Récupère les 15 premiers produits
 
   const { data, pagination } = paginatedProducts
 
