@@ -37,7 +37,7 @@ export default async function HomePage() {
       {/* 2. GRILLE DE PRODUITS */}
       <div className='w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
         <ProductGrid
-          title='les derniers ajouts'
+          title='Ajouts récents'
           description='les produits de qualité'
           products={data?.map((product) => ({
             ...product,
