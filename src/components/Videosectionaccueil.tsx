@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { Play, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import abcLogo from '../images/logo.png'
 
 type Plateforme = 'tiktok' | 'facebook'
 type Filtre = 'tous' | Plateforme
@@ -27,8 +26,6 @@ interface VideoItem {
   /** Force le format vertical (reels). TikTok est vertical par défaut. */
   vertical?: boolean
 }
-
-const TITRE_SECTION = "American's Beauty Center"
 
 const CHANNELS: { plateforme: Plateforme; label: string; url: string }[] = [
   {
@@ -78,6 +75,30 @@ const VIDEOS: VideoItem[] = [
     titre: 'Reel American Beauty Center n°3',
     categorie: 'Reel',
     vertical: true,
+  },
+  {
+    id: '7678730876733230356',
+    plateforme: 'tiktok',
+    titre: 'TikTok American Beauty Center n°3',
+    categorie: 'Vidéo',
+  },
+  {
+    id: '7684316736149146900',
+    plateforme: 'tiktok',
+    titre: 'TikTok American Beauty Center n°4',
+    categorie: 'Vidéo',
+  },
+  {
+    id: '7690662711948053781',
+    plateforme: 'tiktok',
+    titre: 'TikTok American Beauty Center n°5',
+    categorie: 'Vidéo',
+  },
+  {
+    id: '7689492838563745045',
+    plateforme: 'tiktok',
+    titre: 'TikTok American Beauty Center n°6',
+    categorie: 'Vidéo',
   },
 ]
 
@@ -130,49 +151,6 @@ export default function VideoSectionTiktokFacebook({
   return (
     <section className='w-full bg-brand-black text-white py-14 md:py-20 my-12 border-t-2 border-brand-red antialiased'>
       <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
-        {/* ─── En-tête ─── */}
-        <header className='border-b border-white/10 pb-6 mb-10 flex items-center justify-between gap-4'>
-          <div className='flex items-center gap-4'>
-            <Link
-              href={CHANNELS[0].url}
-              target='_blank'
-              rel='noopener noreferrer'
-              aria-label={`Ouvrir la page Facebook ${TITRE_SECTION}`}
-              className='relative w-12 h-12 overflow-hidden shrink-0 border border-white/10 hover:border-brand-gold transition-colors duration-300 group/logo'
-            >
-              <Image
-                src={abcLogo}
-                alt={`Logo ${TITRE_SECTION}`}
-                fill
-                className='object-cover group-hover/logo:opacity-90 transition-opacity'
-                sizes='48px'
-              />
-            </Link>
-
-            <h2 className='font-serif text-2xl md:text-3xl font-light tracking-wide text-white'>
-              {TITRE_SECTION}
-            </h2>
-          </div>
-
-          <nav
-            aria-label='Nos réseaux'
-            className='hidden md:flex items-center gap-6'
-          >
-            {CHANNELS.map((c) => (
-              <Link
-                key={c.plateforme}
-                href={c.url}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='inline-flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.14em] text-white/50 hover:text-brand-gold transition-colors group'
-              >
-                <span>{c.label}</span>
-                <ArrowRight className='h-3.5 w-3.5 stroke-[1.5] transition-transform group-hover:translate-x-0.5' />
-              </Link>
-            ))}
-          </nav>
-        </header>
-
         {/* ─── Grille principale ─── */}
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-8 items-start'>
           {/* LECTEUR PRINCIPAL (7/12) */}
@@ -216,7 +194,7 @@ export default function VideoSectionTiktokFacebook({
           <div className='order-1 lg:order-2 lg:col-span-5 flex flex-col'>
             <div className='flex items-center justify-between gap-4 mb-4'>
               <h4 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-white text-left'>
-                Dernières vidéos
+                Vidéos Récentes
               </h4>
 
               {filtres.length > 2 && (
