@@ -20,6 +20,7 @@ type WooTag = {
   id: number
   name: string
 }
+
 type Brand = {
   id: number
   name: string
@@ -203,7 +204,7 @@ export function ProductInfo({ product }: { product: Product }) {
         <button
           type='button'
           disabled={!inStock}
-          className='h-14 flex-1 rounded-full bg-[#2B4235] px-5 py-5 text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2] transition hover:bg-[#233529] disabled:cursor-not-allowed disabled:bg-[#231F1A]/20 disabled:text-[#231F1A]/50'
+          className='h-14 flex-1 rounded-full bg-brand-red-dark px-5 py-5 text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2] transition  disabled:cursor-not-allowed disabled:bg-brand-red-dark/20 disabled:brand-red-dark/50'
           onClick={handleAddToCart}
         >
           {inStock ? 'Ajouter au panier' : 'Rupture de stock'}

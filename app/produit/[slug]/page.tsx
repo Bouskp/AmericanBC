@@ -117,7 +117,7 @@ export default async function ProductPage({
         </div>
         <button
           type='button'
-          className='h-11 flex-1 max-w-[220px] rounded-full bg-[#2B4235] text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2]'
+          className='h-11 flex-1 max-w-[220px] rounded-full bg-brand-red-dark text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2]'
         >
           Ajouter au panier
         </button>
