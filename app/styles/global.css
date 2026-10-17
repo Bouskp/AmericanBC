@@ -18,6 +18,7 @@
 @theme inline {
   --font-serif: var(--font-noto-sans), sans-serif;
   --font-sans: var(--inter), sans-serif;
+  --font-script: var(--font-pinyon-script), cursive;
   --color-brand-red: var(--abc-red);
   --color-brand-red-dark: var(--abc-red-dark);
   --color-brand-black: var(--abc-black);

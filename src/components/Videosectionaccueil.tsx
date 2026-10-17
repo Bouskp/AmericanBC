@@ -46,58 +46,52 @@ const VIDEOS: VideoItem[] = [
   {
     id: 'https://www.facebook.com/reel/1424913319170462',
     plateforme: 'facebook',
-    titre: 'Reel American Beauty Center n°1',
+    titre: 'La différence entre les Palmers',
     categorie: 'Reel',
     vertical: true,
   },
   {
     id: '7678772531242863893',
     plateforme: 'tiktok',
-    titre: 'TikTok American Beauty Center n°1',
+    titre: 'Teint noir ebène avec coconut coffee',
     categorie: 'Vidéo',
   },
   {
     id: 'https://www.facebook.com/reel/1660765992429684',
     plateforme: 'facebook',
-    titre: 'Reel American Beauty Center n°2',
+    titre: 'Restockage de la boutique',
     categorie: 'Reel',
     vertical: true,
   },
   {
-    id: '7687283137935625492',
-    plateforme: 'tiktok',
-    titre: 'TikTok American Beauty Center n°2',
-    categorie: 'Vidéo',
-  },
-  {
     id: 'https://www.facebook.com/reel/2326986288065387',
     plateforme: 'facebook',
-    titre: 'Reel American Beauty Center n°3',
+    titre: "N'ayez pas peur !!!",
     categorie: 'Reel',
     vertical: true,
   },
   {
     id: '7678730876733230356',
     plateforme: 'tiktok',
-    titre: 'TikTok American Beauty Center n°3',
+    titre: 'Eczéma au revoir',
     categorie: 'Vidéo',
   },
   {
     id: '7684316736149146900',
     plateforme: 'tiktok',
-    titre: 'TikTok American Beauty Center n°4',
+    titre: 'Tâche sur le visage',
     categorie: 'Vidéo',
   },
   {
     id: '7690662711948053781',
     plateforme: 'tiktok',
-    titre: 'TikTok American Beauty Center n°5',
+    titre: 'Les bienfaits du gommage',
     categorie: 'Vidéo',
   },
   {
     id: '7689492838563745045',
     plateforme: 'tiktok',
-    titre: 'TikTok American Beauty Center n°6',
+    titre: 'Arrivage American Dream',
     categorie: 'Vidéo',
   },
 ]
@@ -153,7 +147,7 @@ export default function VideoSectionTiktokFacebook({
       <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
         <header className='border-b border-white/10 pb-6 mb-10 flex items-center justify-between gap-4'>
           <div className='flex items-center gap-4'>
-            <h2 className='font-serif text-2xl md:text-3xl font-light tracking-wide text-white'>
+            <h2 className='font-serif text-3xl md:text-4xl font-bold tracking-wide text-white'>
               VIDEOS EXPLICATIVES
             </h2>
           </div>

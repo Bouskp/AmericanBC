@@ -1,5 +1,4 @@
 import { HeroSlider } from '@/components/HeroSlider'
-import { PromoBanner } from '@/components/PromoBanner'
 import { ProductGrid } from '@/components/ProductGrid'
 import { getPaginatedProducts } from '../types/wooCommerceApi'
 import { Metadata } from 'next'

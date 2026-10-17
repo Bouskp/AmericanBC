@@ -43,8 +43,8 @@ function Logo() {
       </div>
 
       {/* ─── LE NOM DE LA MARQUE : En dessous sur mobile, à droite sur PC ─── */}
-      <span className='text-brand-red tracking-widest uppercase leading-none text-center text-base md:text-3xl lg:text-4xl font-bold font-serif word-spacing-[100px] md:word-spacing-[50px]'>
-        AMERICAN’S BEAUTY CENTER
+      <span className='text-brand-red leading-none text-center text-xl md:text-4xl lg:text-5xl font-script [word-spacing:0.15em]'>
+        American’s Beauty Center
       </span>
     </Link>
   )

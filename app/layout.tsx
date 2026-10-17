@@ -1,5 +1,5 @@
 import './styles/global.css'
-import { Noto_Sans, Inter } from 'next/font/google'
+import { Noto_Sans, Inter, Pinyon_Script } from 'next/font/google'
 import Footer from '@/components/footer'
 import NavbarElement from '@/components/NavBarElement'
 import { CartProvider } from '@/components/cartProvider'
@@ -19,6 +19,13 @@ const inter = Inter({
   variable: '--inter',
 })
 
+const pinyonScript = Pinyon_Script({
+  subsets: ['latin', 'latin-ext'],
+  weight: '400',
+  variable: '--font-pinyon-script',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || 'https://www.americansbeautycenter.com',
@@ -35,7 +42,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='fr' className={`${notoSans.variable} ${inter.variable}`}>
+    <html
+      lang='fr'
+      className={`${pinyonScript.variable} ${notoSans.variable} ${inter.variable}`}
+    >
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
       <body className='antialiased'>
