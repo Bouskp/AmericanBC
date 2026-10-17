@@ -203,7 +203,7 @@ export function ProductInfo({ product }: { product: Product }) {
         <button
           type='button'
           disabled={!inStock}
-          className='h-11 flex-1 rounded-full bg-[#2B4235] px-6 text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2] transition hover:bg-[#233529] disabled:cursor-not-allowed disabled:bg-[#231F1A]/20 disabled:text-[#231F1A]/50'
+          className='h-14 flex-1 rounded-full bg-[#2B4235] px-5 py-5 text-sm font-medium uppercase tracking-[0.06em] text-[#FAF7F2] transition hover:bg-[#233529] disabled:cursor-not-allowed disabled:bg-[#231F1A]/20 disabled:text-[#231F1A]/50'
           onClick={handleAddToCart}
         >
           {inStock ? 'Ajouter au panier' : 'Rupture de stock'}
