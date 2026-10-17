@@ -20,10 +20,14 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   const page = Number(params.page) || 1
   const perPage = PER_PAGE
 
-  const [categories, brands] = await Promise.all([
+  const [allCategories, allBrands] = await Promise.all([
     getAllCategories(),
     getAllBrands(),
   ])
+
+  const categories = allCategories.filter((c) => c.count > 0)
+  const brands = allBrands.filter((b) => b.count > 0)
+
   const category = categories.find((c) => c.slug === params.category)
   const brand = brands.find((b) => b.slug === params.brand)
 

@@ -55,7 +55,7 @@ const slides = [
     bgClass: '',
   },
   {
-    id: 2,
+    id: 5,
     title: 'Livraison Rapide à Abidjan',
     description:
       "Commandez aujourd'hui et recevez votre colis chez vous sous 24h à 48h.",

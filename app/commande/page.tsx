@@ -9,6 +9,9 @@ import { useCartStore } from '../../store/useCartStore'
 
 type PaymentMethod = 'cinetpay' | 'cod'
 
+// Taux des frais de paiement en ligne (à ajuster selon votre contrat CinetPay)
+const ONLINE_PAYMENT_FEE_RATE = 0.02
+
 export default function CheckoutPage() {
   const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cinetpay')
@@ -27,8 +30,25 @@ export default function CheckoutPage() {
   const cartItems = useCartStore((state) => state.items)
   const totalPrice = useCartStore((state) => state.getTotalPrice())
 
+  // Frais de livraison
   const shippingFee = customer.city.toLowerCase() === 'abidjan' ? 2000 : 4000
-  const total = totalPrice + (customer.city ? shippingFee : 0)
+  const shipping = customer.city ? shippingFee : 0
+
+  // Montant avant frais de paiement
+  const baseAmount = totalPrice + shipping
+
+  // Frais de paiement en ligne, arrondis au multiple de 5 supérieur
+  // (CinetPay exige des montants multiples de 5 en XOF)
+  const onlineFee =
+    paymentMethod === 'cinetpay' && customer.city
+      ? Math.ceil((baseAmount * ONLINE_PAYMENT_FEE_RATE) / 5) * 5
+      : 0
+
+  const total = baseAmount + onlineFee
+
+  const feeRateLabel = (ONLINE_PAYMENT_FEE_RATE * 100)
+    .toString()
+    .replace('.', ',')
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -49,12 +69,13 @@ export default function CheckoutPage() {
           cart: cartItems,
           customer,
           paymentMethod,
+          shippingFee: shipping,
+          onlineFee,
           total,
         }),
       })
 
       const data = await res.json()
-      console.log(data)
 
       if (!res.ok) {
         throw new Error(data.error || 'Une erreur est survenue')
@@ -212,7 +233,7 @@ export default function CheckoutPage() {
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 {/* Option CinetPay */}
                 <label
-                  className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between h-24 transition-all duration-300 select-none ${
+                  className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
                     paymentMethod === 'cinetpay'
                       ? 'border-black bg-gray-50/40'
                       : 'border-gray-100 hover:border-gray-300'
@@ -235,13 +256,14 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <p className='font-sans text-[11px] font-light text-gray-400 leading-snug'>
-                    Mobile Money (Wave, Orange, MTN, Moov) ou carte bancaire.
+                    Mobile Money (Wave, Orange, MTN, Moov) ou carte
+                    bancaire.{' '}
                   </p>
                 </label>
 
                 {/* Option Paiement à la livraison */}
                 <label
-                  className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between h-24 transition-all duration-300 select-none ${
+                  className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
                     paymentMethod === 'cod'
                       ? 'border-black bg-gray-50/40'
                       : 'border-gray-100 hover:border-gray-300'
@@ -264,7 +286,8 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <p className='font-sans text-[11px] font-light text-gray-400 leading-snug'>
-                    Réglez en espèces à la réception de votre commande.
+                    Réglez en espèces à la réception de votre commande. Aucun
+                    frais supplémentaire.
                   </p>
                 </label>
               </div>
@@ -327,6 +350,12 @@ export default function CheckoutPage() {
                     : 'En attente de la ville'}
                 </span>
               </div>
+              {onlineFee > 0 && (
+                <div className='flex justify-between font-sans text-xs font-light text-gray-500'>
+                  <span>Frais de paiement en ligne</span>
+                  <span>{onlineFee.toLocaleString()} FCFA</span>
+                </div>
+              )}
             </div>
 
             <div className='flex justify-between items-baseline pt-4 border-t border-gray-100'>

@@ -3,6 +3,7 @@ import { PromoBanner } from '@/components/PromoBanner'
 import { ProductGrid } from '@/components/ProductGrid'
 import { getPaginatedProducts } from '../types/wooCommerceApi'
 import { Metadata } from 'next'
+import VideoSectionAccueil from '@/components/Videosectionaccueil'
 
 export const revalidate = 3600
 
@@ -49,14 +50,7 @@ export default async function HomePage() {
         />
       </div>
 
-      {/* 5. BANNIÈRE PROMO INTERMÉDIAIRE */}
-      <section className='container mx-auto px-4'>
-        <PromoBanner
-          title='Livraison Gratuite !'
-          description="Profitez de la livraison offerte sur toute votre commande dès 35 000 XOF d'achat."
-          bgClass='bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black'
-        />
-      </section>
+      <VideoSectionAccueil />
     </div>
   )
 }

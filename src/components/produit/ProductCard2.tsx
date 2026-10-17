@@ -71,20 +71,20 @@ export function ProductCard2({
         <div className='space-y-2'>
           {/* Catégorie : Signature visuelle fine de la marque */}
           {category && (
-            <p className='text-[10px] font-sans font-light uppercase tracking-[0.14em] text-gray-400'>
+            <p className='text-[12px] font-sans font-light uppercase tracking-[0.14em] text-gray-400'>
               {category}
             </p>
           )}
 
           {/* Nom du produit : Style Éditorial / Presse avec police Serif légère */}
-          <h3 className='font-serif text-sm md:text-base font-light text-black tracking-wide leading-tight lowercase first-letter:uppercase transition-colors group-hover:text-gray-600 line-clamp-2'>
+          <h3 className='font-serif text-sm md:text-base font-bold text-black tracking-wide leading-tight lowercase first-letter:uppercase transition-colors line-clamp-2'>
             <Link href={`/produit/${slug}`}>{name}</Link>
           </h3>
         </div>
 
         {/* Prix et bouton d'action mobile */}
         <div className='flex items-center justify-between mt-1 py-2'>
-          <div className='font-sans text-sm md:text-base font-medium text-gray-900'>
+          <div className='font-sans text-sm md:text-base font-medium text-brand-red-dark'>
             {Number(price).toLocaleString()} FCFA
           </div>
 
