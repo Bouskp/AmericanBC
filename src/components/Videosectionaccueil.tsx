@@ -149,8 +149,34 @@ export default function VideoSectionTiktokFacebook({
   const vertical = isVertical(videoActive)
 
   return (
-    <section className='w-full bg-brand-black text-white py-14 md:py-20 my-12 border-t-2 border-brand-red antialiased'>
+    <section className='w-full bg-brand-red-dark text-white py-14 md:py-20 my-12 border-t-2 border-brand-red antialiased'>
       <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
+        <header className='border-b border-white/10 pb-6 mb-10 flex items-center justify-between gap-4'>
+          <div className='flex items-center gap-4'>
+            <h2 className='font-serif text-2xl md:text-3xl font-light tracking-wide text-white'>
+              VIDEOS EXPLICATIVES
+            </h2>
+          </div>
+
+          <nav
+            aria-label='Nos réseaux'
+            className='hidden md:flex items-center gap-6'
+          >
+            {CHANNELS.map((c) => (
+              <Link
+                key={c.plateforme}
+                href={c.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='inline-flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.14em] text-white/50 hover:text-brand-gold transition-colors group'
+              >
+                <span>{c.label}</span>
+                <ArrowRight className='h-3.5 w-3.5 stroke-[1.5] transition-transform group-hover:translate-x-0.5' />
+              </Link>
+            ))}
+          </nav>
+        </header>
+
         {/* ─── Grille principale ─── */}
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-8 items-start'>
           {/* LECTEUR PRINCIPAL (7/12) */}

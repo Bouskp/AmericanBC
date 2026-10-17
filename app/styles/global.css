@@ -16,7 +16,7 @@
 }
 
 @theme inline {
-  --font-serif: var(--font-playfair), serif;
+  --font-serif: var(--font-noto-sans), sans-serif;
   --font-sans: var(--inter), sans-serif;
   --color-brand-red: var(--abc-red);
   --color-brand-red-dark: var(--abc-red-dark);

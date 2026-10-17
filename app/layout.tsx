@@ -1,5 +1,5 @@
 import './styles/global.css'
-import { Playfair_Display, Inter } from 'next/font/google'
+import { Noto_Sans, Inter } from 'next/font/google'
 import Footer from '@/components/footer'
 import NavbarElement from '@/components/NavBarElement'
 import { CartProvider } from '@/components/cartProvider'
@@ -8,9 +8,10 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import WhatsAppButton from '@/components/WhatsAppButton'
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
+const notoSans = Noto_Sans({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-noto-sans',
+  display: 'swap',
 })
 
 const inter = Inter({
@@ -34,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='fr' className={`${playfair.variable} ${inter.variable}`}>
+    <html lang='fr' className={`${notoSans.variable} ${inter.variable}`}>
       <meta name='viewport' content='width=device-width, initial-scale=1.0' />
 
       <body className='antialiased'>
