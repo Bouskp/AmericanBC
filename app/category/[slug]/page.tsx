@@ -7,6 +7,7 @@ import {
 import { ProductGrid } from '@/components/ProductGrid'
 import SortSelect from '@/components/SortSelect'
 import { Metadata } from 'next'
+import Pagination from '@/components/Pagination'
 
 export const revalidate = 3600
 
@@ -63,25 +64,27 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ slug: string }>
-  searchParams: Promise<{ sort?: string }>
+  searchParams: Promise<{ sort?: string; page?: string }>
 }) {
   const { slug } = await params
-  const { sort: sortParam } = await searchParams
+  const { sort: sortParam, page: pageParam } = await searchParams
+  const page = Math.max(1, Math.floor(Number(pageParam)) || 1)
   const sort = parseSortParam(sortParam)
 
   const category = await getCategoryBySlug(slug)
   const products = await getProductByCategoryPagination(
     category?.id || 0,
-    1,
+    page,
     30,
     sort,
   )
+  const { data, pagination } = products
 
   if (!category) {
     notFound()
   }
 
-  if (!products || products.data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <div className='text-center py-12'>
         <p className='text-black text-base'>
@@ -109,14 +112,14 @@ export default async function Page({
       <div className='flex flex-col md:flex-row gap-8 items-start'>
         <main className='flex-1 w-full'>
           <div className='flex justify-between items-center mb-4 text-base text-muted-foreground'>
-            <span>{products.data.length} articles trouvés</span>
+            <span>{data.length} articles trouvés</span>
             <SortSelect />
           </div>
 
           <ProductGrid
             products={
-              products.data.length > 0
-                ? products.data.map((p) => ({
+              data.length > 0
+                ? data.map((p) => ({
                     ...p,
                     id: String(p.id),
                     price: p.price,
@@ -127,6 +130,11 @@ export default async function Page({
                 : []
             }
           />
+
+          {/* Pagination isolée avec de l'espace */}
+          <div className='pt-8 border-t border-gray-100 flex justify-center'>
+            <Pagination currentPage={page} totalPages={pagination.totalPages} />
+          </div>
         </main>
       </div>
     </div>
