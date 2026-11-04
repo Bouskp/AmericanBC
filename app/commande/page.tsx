@@ -9,8 +9,9 @@ import { useCartStore } from '../../store/useCartStore'
 
 type PaymentMethod = 'cinetpay' | 'cod'
 
-// Taux des frais de paiement en ligne (à ajuster selon votre contrat CinetPay)
-const ONLINE_PAYMENT_FEE_RATE = 0.02
+// Taux des frais de paiement en ligne, en pourcentage.
+// Doit rester identique à ONLINE_FEE_PERCENT dans server.js
+const ONLINE_PAYMENT_FEE_PERCENT = 2
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -30,25 +31,22 @@ export default function CheckoutPage() {
   const cartItems = useCartStore((state) => state.items)
   const totalPrice = useCartStore((state) => state.getTotalPrice())
 
-  // Frais de livraison
-  const shippingFee = customer.city.toLowerCase() === 'abidjan' ? 2000 : 4000
+  // Frais de livraison (identiques à shippingFor dans server.js)
+  const shippingFee = customer.city === 'Abidjan' ? 2000 : 4000
   const shipping = customer.city ? shippingFee : 0
 
   // Montant avant frais de paiement
   const baseAmount = totalPrice + shipping
 
-  // Frais de paiement en ligne, arrondis au multiple de 5 supérieur
-  // (CinetPay exige des montants multiples de 5 en XOF)
+  // Même formule que le serveur : total arrondi au multiple de 5 supérieur
+  // (CinetPay l'exige en XOF), frais = différence avec le montant avant frais
   const onlineFee =
     paymentMethod === 'cinetpay' && customer.city
-      ? Math.ceil((baseAmount * ONLINE_PAYMENT_FEE_RATE) / 5) * 5
+      ? Math.ceil((baseAmount * (100 + ONLINE_PAYMENT_FEE_PERCENT)) / 500) * 5 -
+        baseAmount
       : 0
 
   const total = baseAmount + onlineFee
-
-  const feeRateLabel = (ONLINE_PAYMENT_FEE_RATE * 100)
-    .toString()
-    .replace('.', ',')
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -62,16 +60,13 @@ export default function CheckoutPage() {
     setError(null)
 
     try {
-      const res = await fetch('/api/paiement', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/paiement`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          cart: cartItems,
+          cart: cartItems.map((i) => ({ id: i.id, qty: i.quantity })),
           customer,
           paymentMethod,
-          shippingFee: shipping,
-          onlineFee,
-          total,
         }),
       })
 
@@ -84,7 +79,7 @@ export default function CheckoutPage() {
       if (paymentMethod === 'cinetpay') {
         window.location.href = data.paymentUrl
       } else {
-        router.push(`/commande/confirmation?order_id=${data.orderId}`)
+        router.push(data.redirectUrl)
       }
     } catch (err: any) {
       setError(err.message)
