@@ -11,6 +11,20 @@ type PaymentMethod = 'cinetpay' | 'cod'
 
 // Taux des frais de paiement en ligne, en pourcentage.
 const ONLINE_PAYMENT_FEE_PERCENT = 3
+// Frais de livraison par commune (identiques à SHIPPING_ZONES dans server.js)
+const SHIPPING_ZONES: Record<string, number> = {
+  Abobo: 2000,
+  'Port Bouet': 2000,
+  Gonzaque: 2000,
+  BIMBRESSO: 2000,
+  cocody: 2000,
+  Yopougon: 2000,
+  Marcory: 2000,
+  Angré: 1500,
+  Bingerville: 1500,
+  Bassam: 3000,
+  'Intérieur du pays': 3000,
+}
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -31,8 +45,8 @@ export default function CheckoutPage() {
   const totalPrice = useCartStore((state) => state.getTotalPrice())
 
   // Frais de livraison (identiques à shippingFor dans server.js)
-  const shippingFee = customer.city === 'Abidjan' ? 2000 : 4000
-  const shipping = customer.city ? shippingFee : 0
+  const shippingFee = SHIPPING_ZONES[customer.city] ?? 0
+  const shipping = shippingFee
 
   // Montant avant frais de paiement
   const baseAmount = totalPrice + shipping
@@ -202,7 +216,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className='space-y-1.5'>
                   <label className='font-sans text-[10px] uppercase tracking-[0.14em] text-gray-400 font-medium'>
-                    Ville de destination *
+                    Commune de livraison *
                   </label>
                   <select
                     name='city'
@@ -212,8 +226,11 @@ export default function CheckoutPage() {
                     className='w-full h-11 border-0 border-b border-gray-200 bg-transparent rounded-none px-0 text-sm font-sans font-light text-black focus:outline-hidden focus:border-black transition-colors cursor-pointer'
                   >
                     <option value=''>Sélectionnez</option>
-                    <option value='Abidjan'>Abidjan</option>
-                    <option value='Intérieur'>Intérieur du pays</option>
+                    {Object.keys(SHIPPING_ZONES).map((zone) => (
+                      <option key={zone} value={zone}>
+                        {zone}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -347,7 +364,7 @@ export default function CheckoutPage() {
               </div>
               {onlineFee > 0 && (
                 <div className='flex justify-between font-sans text-xs font-light text-gray-500'>
-                  <span>Frais de paiement en ligne</span>
+                  <span>Taxe</span>
                   <span>{onlineFee.toLocaleString()} FCFA</span>
                 </div>
               )}
