@@ -10,8 +10,7 @@ import { useCartStore } from '../../store/useCartStore'
 type PaymentMethod = 'cinetpay' | 'cod'
 
 // Taux des frais de paiement en ligne, en pourcentage.
-// Doit rester identique à ONLINE_FEE_PERCENT dans server.js
-const ONLINE_PAYMENT_FEE_PERCENT = 2
+const ONLINE_PAYMENT_FEE_PERCENT = 3
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -42,7 +41,8 @@ export default function CheckoutPage() {
   // (CinetPay l'exige en XOF), frais = différence avec le montant avant frais
   const onlineFee =
     paymentMethod === 'cinetpay' && customer.city
-      ? Math.ceil((baseAmount * (100 + ONLINE_PAYMENT_FEE_PERCENT)) / 500) * 5 -
+      ? Math.ceil((baseAmount * 100) / (100 - ONLINE_PAYMENT_FEE_PERCENT) / 5) *
+          5 -
         baseAmount
       : 0
 
