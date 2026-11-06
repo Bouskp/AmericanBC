@@ -16,7 +16,7 @@ const SHIPPING_ZONES: Record<string, number> = {
   Abobo: 2000,
   'Port Bouet': 2000,
   Gonzaque: 2000,
-  BIMBRESSO: 2000,
+  Bimbresso: 2000,
   cocody: 2000,
   Yopougon: 2000,
   Marcory: 2000,
@@ -24,6 +24,7 @@ const SHIPPING_ZONES: Record<string, number> = {
   Bingerville: 1500,
   Bassam: 3000,
   'Intérieur du pays': 3000,
+  plateau: 1500,
 }
 
 export default function CheckoutPage() {
