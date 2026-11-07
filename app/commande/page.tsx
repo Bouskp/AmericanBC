@@ -10,21 +10,24 @@ import { useCartStore } from '../../store/useCartStore'
 type PaymentMethod = 'cinetpay' | 'cod'
 
 // Taux des frais de paiement en ligne, en pourcentage.
+// Doit rester identique à ONLINE_FEE_PERCENT dans server.js
 const ONLINE_PAYMENT_FEE_PERCENT = 3
-// Frais de livraison par commune (identiques à SHIPPING_ZONES dans server.js)
+
+// Frais de livraison par commune.
+// Les noms et les tarifs doivent être IDENTIQUES à SHIPPING_ZONES dans server.js
 const SHIPPING_ZONES: Record<string, number> = {
   Abobo: 2000,
   'Port Bouet': 2000,
   Gonzaque: 2000,
   Bimbresso: 2000,
-  cocody: 2000,
+  Cocody: 2000,
   Yopougon: 2000,
   Marcory: 2000,
   Angré: 1500,
   Bingerville: 1500,
   Bassam: 3000,
   'Intérieur du pays': 3000,
-  plateau: 1500,
+  Plateau: 1500,
 }
 
 export default function CheckoutPage() {
@@ -45,7 +48,7 @@ export default function CheckoutPage() {
   const cartItems = useCartStore((state) => state.items)
   const totalPrice = useCartStore((state) => state.getTotalPrice())
 
-  // Frais de livraison (identiques à shippingFor dans server.js)
+  // Frais de livraison
   const shippingFee = SHIPPING_ZONES[customer.city] ?? 0
   const shipping = shippingFee
 
@@ -92,6 +95,9 @@ export default function CheckoutPage() {
       }
 
       if (paymentMethod === 'cinetpay') {
+        if (!data.paymentUrl) {
+          throw new Error('Lien de paiement indisponible, réessayez.')
+        }
         window.location.href = data.paymentUrl
       } else {
         router.push(data.redirectUrl)
@@ -248,8 +254,8 @@ export default function CheckoutPage() {
                 <label
                   className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
                     paymentMethod === 'cinetpay'
-                      ? 'border-black bg-gray-50/40'
-                      : 'border-gray-100 hover:border-gray-300'
+                      ? 'border-abc-red-dark bg-gray-50/40'
+                      : 'border-gray-100 hover:border-abc-red-dark'
                   }`}
                 >
                   <div className='flex justify-between items-center w-full'>
@@ -278,8 +284,8 @@ export default function CheckoutPage() {
                 <label
                   className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
                     paymentMethod === 'cod'
-                      ? 'border-black bg-gray-50/40'
-                      : 'border-gray-100 hover:border-gray-300'
+                      ? 'border-abc-red-dark bg-gray-50/40'
+                      : 'border-gray-100 hover:border-abc-red-dark'
                   }`}
                 >
                   <div className='flex justify-between items-center w-full'>
@@ -304,6 +310,16 @@ export default function CheckoutPage() {
                   </p>
                 </label>
               </div>
+
+              {/* Moyens de paiement acceptés (paiement en ligne) */}
+              {paymentMethod === 'cinetpay' && (
+                <img
+                  src='/logo2.png'
+                  alt='Orange Money, Wave, MTN Money, Moov Money, Visa et Mastercard'
+                  loading='lazy'
+                  className='w-full max-w-md h-auto'
+                />
+              )}
             </div>
 
             {error && <p className='font-sans text-xs text-red-500'>{error}</p>}
@@ -324,7 +340,7 @@ export default function CheckoutPage() {
 
         {/* ─── COLONNE DE DROITE : RÉCAPITULATIF (5 colonnes, sticky) ─── */}
         <aside className='lg:col-span-5 lg:sticky lg:top-16'>
-          <div className='border border-gray-100 p-6 md:p-8 space-y-6 text-left'>
+          <div className='border border-abc-red-dark p-6 md:p-8 space-y-6 text-left'>
             <h2 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-black border-b border-gray-50 pb-3'>
               Détails de l'achat
             </h2>
