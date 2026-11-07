@@ -8,7 +8,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
-import banner2 from '../images/banner2.png'
+import banner2 from '../images/banner6.png'
 import banner3 from '../images/banner3.png'
 import banner4 from '../images/banner4.jpeg'
 import banner5 from '../images/banner5.jpeg'
