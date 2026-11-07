@@ -163,6 +163,12 @@ export default function Footer() {
                 >
                   +225 07 06 35 39 17
                 </a>
+                <a
+                  href='tel:+222722243207'
+                  className='text-black transition-colors'
+                >
+                  +225 27 22 24 32 07
+                </a>
               </div>
             </li>
             <li className='flex items-start gap-2'>

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, Check, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCartStore } from '../../store/useCartStore'
+import logo2 from '@/images/logo2.png'
 
 type PaymentMethod = 'cinetpay' | 'cod'
 
@@ -245,17 +246,17 @@ export default function CheckoutPage() {
 
             {/* BLOC 3 : MODE DE PAIEMENT */}
             <div className='space-y-6 pt-2'>
-              <h2 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-black border-b border-gray-50 pb-2'>
+              <h2 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-black border-brand-red-dark pb-2'>
                 03. Mode de règlement
               </h2>
 
               <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 {/* Option CinetPay */}
                 <label
-                  className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
+                  className={`border-2 p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
                     paymentMethod === 'cinetpay'
-                      ? 'border-abc-red-dark bg-gray-50/40'
-                      : 'border-gray-100 hover:border-abc-red-dark'
+                      ? 'border-brand-red bg-gray-50/40'
+                      : 'border-gray-100 hover:border-abc-red'
                   }`}
                 >
                   <div className='flex justify-between items-center w-full'>
@@ -282,10 +283,10 @@ export default function CheckoutPage() {
 
                 {/* Option Paiement à la livraison */}
                 <label
-                  className={`border p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
+                  className={`border-2 p-4 rounded-none cursor-pointer flex flex-col justify-between gap-2 min-h-24 transition-all duration-300 select-none ${
                     paymentMethod === 'cod'
-                      ? 'border-abc-red-dark bg-gray-50/40'
-                      : 'border-gray-100 hover:border-abc-red-dark'
+                      ? 'border-brand-red bg-gray-50/40'
+                      : 'border-gray-100 hover:bg-gray-50/40'
                   }`}
                 >
                   <div className='flex justify-between items-center w-full'>
@@ -314,7 +315,7 @@ export default function CheckoutPage() {
               {/* Moyens de paiement acceptés (paiement en ligne) */}
               {paymentMethod === 'cinetpay' && (
                 <img
-                  src='/logo2.png'
+                  src={logo2.src}
                   alt='Orange Money, Wave, MTN Money, Moov Money, Visa et Mastercard'
                   loading='lazy'
                   className='w-full max-w-md h-auto'
@@ -340,7 +341,7 @@ export default function CheckoutPage() {
 
         {/* ─── COLONNE DE DROITE : RÉCAPITULATIF (5 colonnes, sticky) ─── */}
         <aside className='lg:col-span-5 lg:sticky lg:top-16'>
-          <div className='border border-abc-red-dark p-6 md:p-8 space-y-6 text-left'>
+          <div className='border-2 border-brand-red p-6 md:p-8 space-y-6 text-left'>
             <h2 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-black border-b border-gray-50 pb-3'>
               Détails de l'achat
             </h2>

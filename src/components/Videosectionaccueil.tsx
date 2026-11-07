@@ -143,7 +143,7 @@ export default function VideoSectionTiktokFacebook({
   const vertical = isVertical(videoActive)
 
   return (
-    <section className='w-full bg-brand-red-dark text-white py-14 md:py-20 my-12 border-t-2 border-brand-red antialiased'>
+    <section className='w-full bg-brand-red-dark text-white py-6 md:py-8  border-t-2 border-brand-red antialiased'>
       <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
         <header className='border-b border-white/10 pb-6 mb-10 flex items-center justify-between gap-4'>
           <div className='flex items-center gap-4'>

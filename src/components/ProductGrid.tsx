@@ -24,7 +24,7 @@ export function ProductGrid({
   // Cas vide : Fin, discret et élégant sans boîte massive autour
   if (!products || products.length === 0) {
     return (
-      <div className='w-full text-center py-16 border-t border-b border-gray-50'>
+      <div className='w-full text-center py-8 border-t border-b border-gray-50'>
         <p className='font-sans text-xs uppercase tracking-[0.14em] text-gray-400'>
           Aucun produit trouvé dans cette collection.
         </p>
@@ -38,12 +38,12 @@ export function ProductGrid({
       {(title || description) && (
         <div className='flex flex-col gap-2 text-left border-b border-gray-50 pb-6'>
           {title && (
-            <h2 className='font-serif text-2xl md:text-3xl font-light text-black tracking-wide lowercase first-letter:uppercase'>
+            <h2 className='font-serif text-2xl md:text-3xl font-light text-brand-red tracking-wide lowercase uppercase'>
               {title}
             </h2>
           )}
           {description && (
-            <p className='font-sans text-xs uppercase tracking-[0.14em] text-gray-400'>
+            <p className='font-sans text-xs uppercase tracking-[0.14em] text-brand-red'>
               {description}
             </p>
           )}
