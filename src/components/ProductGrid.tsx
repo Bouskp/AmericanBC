@@ -38,12 +38,12 @@ export function ProductGrid({
       {(title || description) && (
         <div className='flex flex-col gap-2 text-left border-b border-gray-50 pb-6'>
           {title && (
-            <h2 className='font-serif text-2xl md:text-3xl font-light text-brand-red tracking-wide lowercase uppercase'>
+            <h2 className='font-serif text-2xl md:text-3xl font-bold text-brand-red tracking-wide lowercase uppercase'>
               {title}
             </h2>
           )}
           {description && (
-            <p className='font-sans text-xs uppercase tracking-[0.14em] text-brand-red'>
+            <p className='font-sans text-xs uppercase tracking-[0.14em] text-brand-red font-bold'>
               {description}
             </p>
           )}

@@ -48,10 +48,10 @@ export default async function ProductsPage({ searchParams }: PageProps) {
     <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16'>
       {/* En-tête de la Collection Épuré */}
       <header className='mb-12 border-b border-gray-100 pb-8 text-left'>
-        <h1 className='font-serif text-3xl md:text-4xl font-light text-black tracking-wide lowercase first-letter:uppercase'>
+        <h1 className='font-serif text-3xl md:text-4xl font-bold text-brand-red tracking-wide lowercase uppercase'>
           {currentTitle}
         </h1>
-        <p className='mt-2 font-sans text-xs uppercase tracking-[0.14em] text-gray-400'>
+        <p className='mt-2 font-sans text-xs uppercase tracking-[0.14em] text-brand-red'>
           {pagination.total} produit{pagination.total > 1 ? 's' : ''} trouvé
           {pagination.total > 1 ? 's' : ''}
         </p>

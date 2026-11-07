@@ -103,7 +103,7 @@ export default async function Page({
     <div className='container mx-auto px-4 py-8 max-w-6xl'>
       <div className='border-b pb-6 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4'>
         <div className='space-y-1'>
-          <h1 className='text-2xl md:text-4xl font-extrabold tracking-tight text-zinc-500 dark:text-zinc-20'>
+          <h1 className='text-2xl md:text-4xl font-bold tracking-tight text-brand-red dark:text-zinc-20 uppercase '>
             {category.name}
           </h1>
         </div>
