@@ -1,330 +1,142 @@
-// components/sections/VideoSectionTiktokFacebook.tsx
 'use client'
 
-import { useState } from 'react'
-import { Play, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import * as React from 'react'
 import Image from 'next/image'
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 
-type Plateforme = 'tiktok' | 'facebook'
-type Filtre = 'tous' | Plateforme
+const LIBRARY_ID = process.env.NEXT_PUBLIC_BUNNY_LIBRARY_ID!
+const CDN_HOST = process.env.NEXT_PUBLIC_BUNNY_CDN_HOST!
 
-interface VideoItem {
-  /**
-   * tiktok   → ID numérique de la vidéo (ex: '7312345678901234567')
-   *            visible dans l'URL tiktok.com/@compte/video/XXXXXXXX
-   * facebook → URL complète de la vidéo ou du reel (doit être publique)
-   */
+type Video = {
   id: string
-  plateforme: Plateforme
-  titre: string
-  description?: string
-  duree?: string
-  categorie: string
-  /** Miniature (chemin dans /public ou URL). Sans elle, un fond neutre s'affiche. */
-  miniature?: string
-  /** Force le format vertical (reels). TikTok est vertical par défaut. */
-  vertical?: boolean
+  title?: string
+  bunnyId: string
+  thumbnail?: string
 }
 
-const CHANNELS: { plateforme: Plateforme; label: string; url: string }[] = [
+const videos: Video[] = [
   {
-    plateforme: 'tiktok',
-    label: 'TikTok',
-    url: 'https://www.tiktok.com/@american_beauty_center',
+    id: '1',
+    bunnyId: '3cac2ae5-74ca-418c-98bd-5019cc2e5afc',
+  },
+  {
+    id: '2',
+    bunnyId: 'f61212b4-7a32-415c-ae75-80b8048506d1',
+  },
+  {
+    id: '3',
+    bunnyId: '8ba8a421-51aa-4ca6-a2a6-255b8523d6a5',
+  },
+  {
+    id: '4',
+    bunnyId: 'e2e6be96-f820-424e-a743-8fe8105242db',
+  },
+  {
+    id: '5',
+    bunnyId: '8f40c15a-afe5-48bd-b44d-ca5d4dab8f20',
   },
 ]
 
-const PLATFORM_LABELS: Record<Plateforme, string> = {
-  tiktok: 'TikTok',
-  facebook: 'Facebook',
+function getEmbedUrl(video: Video) {
+  return `https://iframe.mediadelivery.net/embed/${LIBRARY_ID}/${video.bunnyId}?autoplay=true&preload=true&responsive=true`
 }
 
-// ✏️ Modifiez les titres, catégories et descriptions à votre goût.
-// Ajoutez un champ `miniature` (ex: '/images/miniatures/reel-1.jpg') pour afficher une image.
-const VIDEOS: VideoItem[] = [
-  {
-    id: 'https://www.facebook.com/reel/1424913319170462',
-    plateforme: 'facebook',
-    titre: 'La différence entre les Palmers',
-    categorie: 'Reel',
-    vertical: true,
-  },
-  {
-    id: '7678772531242863893',
-    plateforme: 'tiktok',
-    titre: 'Teint noir ebène avec coconut coffee',
-    categorie: 'Vidéo',
-  },
-  {
-    id: 'https://www.facebook.com/reel/1660765992429684',
-    plateforme: 'facebook',
-    titre: 'Restockage de la boutique',
-    categorie: 'Reel',
-    vertical: true,
-  },
-  {
-    id: 'https://www.facebook.com/reel/2326986288065387',
-    plateforme: 'facebook',
-    titre: "N'ayez pas peur !!!",
-    categorie: 'Reel',
-    vertical: true,
-  },
-  {
-    id: '7678730876733230356',
-    plateforme: 'tiktok',
-    titre: 'Eczéma au revoir',
-    categorie: 'Vidéo',
-  },
-  {
-    id: '7684316736149146900',
-    plateforme: 'tiktok',
-    titre: 'Tâche sur le visage',
-    categorie: 'Vidéo',
-  },
-  {
-    id: '7690662711948053781',
-    plateforme: 'tiktok',
-    titre: 'Les bienfaits du gommage',
-    categorie: 'Vidéo',
-  },
-  {
-    id: '7689492838563745045',
-    plateforme: 'tiktok',
-    titre: 'Arrivage American Dream',
-    categorie: 'Vidéo',
-  },
-]
-
-function isVertical(video: VideoItem) {
-  return video.vertical ?? video.plateforme === 'tiktok'
+function getThumbnail(video: Video) {
+  return video.thumbnail ?? `https://${CDN_HOST}/${video.bunnyId}/thumbnail.jpg`
 }
 
-function getEmbedUrl(video: VideoItem) {
-  if (video.plateforme === 'tiktok') {
-    return `https://www.tiktok.com/embed/v2/${video.id}`
+export function HealthVideos() {
+  const [active, setActive] = React.useState<Video | null>(null)
+  const scrollerRef = React.useRef<HTMLDivElement>(null)
+
+  const scrollByCard = (direction: 1 | -1) => {
+    const el = scrollerRef.current
+    if (!el) return
+    const card = el.firstElementChild as HTMLElement | null
+    const step = card ? card.offsetWidth + 16 : el.clientWidth // 16 = gap-4
+    el.scrollBy({ left: direction * step, behavior: 'smooth' })
   }
-  return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
-    video.id,
-  )}&show_text=false&t=0`
-}
-
-const videoKey = (v: VideoItem) => `${v.plateforme}-${v.id}`
-
-interface VideoSectionProps {
-  videos?: VideoItem[]
-}
-
-export default function VideoSectionTiktokFacebook({
-  videos = VIDEOS,
-}: VideoSectionProps) {
-  const [filtre, setFiltre] = useState<Filtre>('tous')
-  const [videoActive, setVideoActive] = useState<VideoItem | undefined>(
-    videos[0],
-  )
-
-  if (!videoActive) return null
-
-  const plateformesPresentes = Array.from(
-    new Set(videos.map((v) => v.plateforme)),
-  )
-  const filtres: Filtre[] = ['tous', ...plateformesPresentes]
-
-  const videosFiltrees =
-    filtre === 'tous' ? videos : videos.filter((v) => v.plateforme === filtre)
-
-  const changerFiltre = (f: Filtre) => {
-    setFiltre(f)
-    const premiere =
-      f === 'tous' ? videos[0] : videos.find((v) => v.plateforme === f)
-    if (premiere) setVideoActive(premiere)
-  }
-
-  const vertical = isVertical(videoActive)
 
   return (
-    <section className='w-full bg-brand-red-dark text-white py-6 md:py-8  border-t-2 border-brand-red antialiased'>
-      <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8'>
-        <header className='border-b border-white/10 pb-6 mb-10 flex items-center justify-between gap-4'>
-          <div className='flex items-center gap-4'>
-            <h2 className='font-serif text-3xl md:text-4xl font-bold tracking-wide text-white'>
-              VIDEOS EXPLICATIVES
-            </h2>
-          </div>
+    <section className='container mx-auto px-4 py-12 bg-brand-red text-white rounded-lg shadow-lg'>
+      <div className='flex items-center justify-between mb-6'>
+        <h2 className='font-serif text-3xl md:text-4xl font-bold tracking-wide text-white'>
+          VIDEOS EXPLICATIVES
+        </h2>
 
-          <nav
-            aria-label='Nos réseaux'
-            className='hidden md:flex items-center gap-6'
+        {/* Flèches visibles uniquement sur desktop */}
+        <div className='hidden md:flex gap-2'>
+          <button
+            type='button'
+            onClick={() => scrollByCard(-1)}
+            aria-label='Précédent'
+            className='h-10 w-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-white'
           >
-            {CHANNELS.map((c) => (
-              <Link
-                key={c.plateforme}
-                href={c.url}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='inline-flex items-center gap-1.5 font-sans text-[11px] uppercase tracking-[0.14em] text-white/50 hover:text-brand-gold transition-colors group'
-              >
-                <span>{c.label}</span>
-                <ArrowRight className='h-3.5 w-3.5 stroke-[1.5] transition-transform group-hover:translate-x-0.5' />
-              </Link>
-            ))}
-          </nav>
-        </header>
-
-        {/* ─── Grille principale ─── */}
-        <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-8 items-start'>
-          {/* LECTEUR PRINCIPAL (7/12) */}
-          <div className='order-2 lg:order-1 lg:col-span-7 space-y-6'>
-            <div
-              className={`relative bg-black border border-white/10 overflow-hidden ${
-                vertical
-                  ? 'h-[580px] sm:h-[640px]'
-                  : 'aspect-[4/3] sm:aspect-video'
-              }`}
-            >
-              <iframe
-                key={videoKey(videoActive)}
-                src={getEmbedUrl(videoActive)}
-                title={videoActive.titre}
-                allow='autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share'
-                allowFullScreen
-                className={`absolute inset-y-0 h-full border-0 ${
-                  vertical
-                    ? 'left-1/2 -translate-x-1/2 w-full max-w-[340px]'
-                    : 'inset-x-0 w-full'
-                }`}
-              />
-            </div>
-
-            <div className='space-y-3 text-left'>
-              <span className='block font-sans text-[10px] uppercase tracking-[0.14em] text-brand-gold font-medium'>
-                {PLATFORM_LABELS[videoActive.plateforme]} ·{' '}
-                {videoActive.categorie}
-              </span>
-
-              {videoActive.description && (
-                <p className='font-sans text-sm font-light leading-relaxed text-white/60 max-w-prose'>
-                  {videoActive.description}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* LISTE DES VIDÉOS (5/12) */}
-          <div className='order-1 lg:order-2 lg:col-span-5 flex flex-col'>
-            <div className='flex items-center justify-between gap-4 mb-4'>
-              <h4 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-white text-left'>
-                Vidéos Récentes
-              </h4>
-
-              {filtres.length > 2 && (
-                <div className='flex items-center gap-4' role='tablist'>
-                  {filtres.map((f) => (
-                    <button
-                      key={f}
-                      type='button'
-                      role='tab'
-                      aria-selected={filtre === f}
-                      onClick={() => changerFiltre(f)}
-                      className={`font-sans text-[10px] uppercase tracking-[0.14em] pb-1 border-b transition-colors ${
-                        filtre === f
-                          ? 'text-white border-brand-red'
-                          : 'text-white/40 border-transparent hover:text-white/80'
-                      }`}
-                    >
-                      {f === 'tous' ? 'Tout' : PLATFORM_LABELS[f]}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div
-              className='
-                flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth overscroll-x-contain pb-2 -mx-4 px-4
-                [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
-                lg:flex-col lg:gap-0 lg:overflow-x-visible lg:snap-none lg:mx-0 lg:px-0 lg:pb-0
-                lg:divide-y lg:divide-white/10 lg:max-h-[460px] lg:overflow-y-auto lg:pr-2
-              '
-            >
-              {videosFiltrees.map((vid) => {
-                const isActive = videoKey(videoActive) === videoKey(vid)
-
-                return (
-                  <button
-                    key={videoKey(vid)}
-                    type='button'
-                    onClick={() => setVideoActive(vid)}
-                    aria-pressed={isActive}
-                    className={`
-                      shrink-0 w-[260px] sm:w-[300px] lg:w-full snap-start
-                      text-left py-4 flex gap-4 items-center group transition-colors duration-300
-                      border-l-2 pl-3
-                      ${
-                        isActive
-                          ? 'border-brand-red bg-white/5'
-                          : 'border-transparent hover:bg-white/5'
-                      }
-                    `}
-                  >
-                    <div className='relative w-24 aspect-video bg-abc-charcoal shrink-0 border border-white/10 overflow-hidden'>
-                      {vid.miniature ? (
-                        <Image
-                          src={vid.miniature}
-                          alt=''
-                          fill
-                          unoptimized
-                          className={`object-cover transition-opacity duration-300 ${
-                            isActive
-                              ? 'opacity-90'
-                              : 'opacity-50 group-hover:opacity-80'
-                          }`}
-                        />
-                      ) : (
-                        <span className='absolute inset-0 flex items-end p-1.5 font-sans text-[9px] uppercase tracking-[0.14em] text-white/30'>
-                          {PLATFORM_LABELS[vid.plateforme]}
-                        </span>
-                      )}
-
-                      <div className='absolute inset-0 flex items-center justify-center bg-black/30'>
-                        <Play
-                          className={`h-4 w-4 transition-transform duration-300 ${
-                            isActive
-                              ? 'text-brand-red scale-110'
-                              : 'text-white group-hover:scale-110'
-                          }`}
-                          fill='currentColor'
-                        />
-                      </div>
-
-                      {vid.duree && (
-                        <span className='absolute bottom-1 right-1 bg-black/80 px-1 font-sans text-[9px] font-medium text-white/80'>
-                          {vid.duree}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className='flex-1 min-w-0 space-y-1'>
-                      <span className='block font-sans text-[9px] uppercase tracking-[0.14em] text-white/40'>
-                        {PLATFORM_LABELS[vid.plateforme]} · {vid.categorie}
-                      </span>
-                      <h5
-                        className={`font-serif text-xs md:text-sm font-light leading-snug tracking-wide line-clamp-2 transition-colors ${
-                          isActive
-                            ? 'text-white'
-                            : 'text-white/70 group-hover:text-white'
-                        }`}
-                      >
-                        {vid.titre}
-                      </h5>
-                    </div>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
+            <ChevronLeft className='h-5 w-5' />
+          </button>
+          <button
+            type='button'
+            onClick={() => scrollByCard(1)}
+            aria-label='Suivant'
+            className='h-10 w-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-white'
+          >
+            <ChevronRight className='h-5 w-5' />
+          </button>
         </div>
       </div>
+
+      <div
+        ref={scrollerRef}
+        className='flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+      >
+        {videos.map((video, index) => (
+          <button
+            key={video.id}
+            type='button'
+            onClick={() => setActive(video)}
+            className='group shrink-0 snap-start basis-[75%] sm:basis-[45%] md:basis-[31%] lg:basis-[calc(25%-12px)] rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden text-left transition-shadow duration-300 hover:shadow-lg'
+          >
+            <div className='relative aspect-[3/4] overflow-hidden bg-muted'>
+              <Image
+                src={getThumbnail(video)}
+                alt={video?.title ?? 'Video thumbnail'}
+                fill
+                unoptimized
+                priority={index < 2}
+                sizes='(min-width: 1024px) 25vw, (min-width: 768px) 31vw, 75vw'
+                className='object-cover pointer-events-none'
+                draggable={false}
+              />
+              <div className='absolute inset-0 bg-black/30 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity'>
+                <div className='w-16 h-16 rounded-full bg-white/90 flex items-center justify-center'>
+                  <Play
+                    className='h-8 w-8 text-primary ml-1'
+                    fill='currentColor'
+                  />
+                </div>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      <Dialog open={!!active} onOpenChange={(open) => !open && setActive(null)}>
+        <DialogContent className='max-w-sm p-0 overflow-hidden bg-black border-0'>
+          <DialogTitle className='sr-only'>{active?.title}</DialogTitle>
+          {active && (
+            <div className='aspect-[9/16] w-full'>
+              <iframe
+                src={getEmbedUrl(active)}
+                title={active.title}
+                className='h-full w-full'
+                allow='autoplay; encrypted-media; picture-in-picture'
+                allowFullScreen
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   )
 }

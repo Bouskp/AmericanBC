@@ -1,70 +1,82 @@
 'use client'
 
 import * as React from 'react'
-import Image from 'next/image'
+import Link from 'next/link'
+import { getImageProps, type ImageProps } from 'next/image'
 import Autoplay from 'embla-carousel-autoplay'
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
-import banner2 from '../images/banner6.png'
-import banner3 from '../images/banner3.png'
-import banner4 from '../images/banner4.jpeg'
-import banner5 from '../images/banner5.jpeg'
+import olayBanner from '../images/BanniereOlay.png'
+import ADClilicalsBanner from '../images/Banniere1ADClinicals.png'
+import AmericansBanner from '../images/BanniereAmericanDreams.png'
+import mobileAD from '../images/mobileAD.png'
+import mobileOlay from '../images/mobileOlay.png'
+import mobileAmericans from '../images/mobileAmericanDream.png'
+import BannerOgx from '../images/BaniereOGX.png'
+import mobileOGX from '../images/mobileOGX.png'
 
-const slides = [
+type Slide = {
+  id: number
+  alt: string
+  href: string
+  desktop: ImageProps['src']
+  mobile: ImageProps['src']
+}
+
+const slides: Slide[] = [
   {
     id: 1,
-    title: 'Nouvelle Collection Disponible',
-    description:
-      'Découvrez nos nouveautés exclusives sélectionnées pour vous au meilleur prix.',
-    cta: 'Voir le catalogue',
+    alt: 'Nouvelle collection disponible',
     href: '/category/tous-les-produits',
-    imageUrl: banner2,
+    desktop: olayBanner,
+    mobile: mobileOlay,
   },
   {
     id: 2,
-    title: 'Livraison Rapide à Abidjan',
-    description:
-      "Commandez aujourd'hui et recevez votre colis chez vous sous 24h à 48h.",
-    cta: 'Acheter maintenant',
+    alt: 'Livraison rapide à Abidjan',
     href: '/category/tous-les-produits',
-    imageUrl:
-      'https://api.americansbeautycenter.com/wp-content/uploads/2026/07/banner.png',
-    bgClass: '',
+    desktop: ADClilicalsBanner,
+    mobile: mobileAD,
   },
   {
     id: 3,
-    title: 'Paiement à la Livraison',
-    description:
-      'Achetez en toute confiance. Vérifiez votre produit et payez sur place en espèces ou Mobile Money.',
-    cta: 'Découvrir nos produits',
+    alt: 'Paiement à la livraison',
     href: '/category/tous-les-produits',
-    imageUrl: banner3,
-    bgClass: '',
+    desktop: AmericansBanner,
+    mobile: mobileAmericans,
   },
   {
     id: 4,
-    title: 'Livraison Rapide à Abidjan',
-    description:
-      "Commandez aujourd'hui et recevez votre colis chez vous sous 24h à 48h.",
-    cta: 'Acheter maintenant',
+    alt: 'Découvrez nos produits OGX',
     href: '/category/tous-les-produits',
-    imageUrl: banner4,
-    bgClass: '',
-  },
-  {
-    id: 5,
-    title: 'Livraison Rapide à Abidjan',
-    description:
-      "Commandez aujourd'hui et recevez votre colis chez vous sous 24h à 48h.",
-    cta: 'Acheter maintenant',
-    href: '/category/tous-les-produits',
-    imageUrl: banner5,
-    bgClass: '',
+    desktop: BannerOgx,
+    mobile: mobileOGX,
   },
 ]
+
+function SlideImage({ slide, priority }: { slide: Slide; priority: boolean }) {
+  const common = { alt: slide.alt, fill: true, sizes: '100vw', priority }
+
+  const { props: desktop } = getImageProps({ ...common, src: slide.desktop })
+  const { props: mobile } = getImageProps({ ...common, src: slide.mobile })
+
+  return (
+    <picture>
+      <source media='(min-width: 768px)' srcSet={desktop.srcSet} />
+      {/* L'<img> de secours porte les props de l'image mobile */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        {...mobile}
+        alt={slide.alt}
+        className='object-contain object-top'
+        draggable={false}
+      />
+    </picture>
+  )
+}
 
 export function HeroSlider() {
   const plugin = React.useRef(
@@ -74,31 +86,23 @@ export function HeroSlider() {
   return (
     <div className='w-full overflow-hidden select-none'>
       <Carousel
+        opts={{ loop: true }}
         plugins={[plugin.current]}
         className='w-full'
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
-          {slides.map((slide) => {
-            return (
-              <CarouselItem key={slide.id}>
-                <div
-                  className={`relative w-full min-h-[380px] md:min-h-[500px] flex flex-col items-center justify-center p-6 md:p-12 text-center transition-all duration-500`}
-                >
-                  {/* ─── RENDU CONDITIONNEL DE L'IMAGE DE FOND ─── */}
-                  <Image
-                    src={slide.imageUrl}
-                    alt={slide.title}
-                    fill
-                    priority
-                    sizes='100vw'
-                    className='object-cover object-center pointer-events-none'
-                  />
-                </div>
-              </CarouselItem>
-            )
-          })}
+          {slides.map((slide, index) => (
+            <CarouselItem key={slide.id}>
+              <Link
+                href={slide.href}
+                className='relative block w-full aspect-[4/5] md:aspect-[16/6]'
+              >
+                <SlideImage slide={slide} priority={index === 0} />
+              </Link>
+            </CarouselItem>
+          ))}
         </CarouselContent>
       </Carousel>
     </div>

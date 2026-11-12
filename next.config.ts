@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/wp-content/uploads/**',
       },
+      { protocol: 'https', hostname: 'vz-f7f71637-22a.b-cdn.net' },   
     ],
   },
   allowedDevOrigins: ['glitch-idealness-ragged.ngrok-free.dev'],

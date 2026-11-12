@@ -2,7 +2,7 @@ import { HeroSlider } from '@/components/HeroSlider'
 import { ProductGrid } from '@/components/ProductGrid'
 import { getPaginatedProducts } from '../types/wooCommerceApi'
 import { Metadata } from 'next'
-import VideoSectionAccueil from '@/components/Videosectionaccueil'
+import { HealthVideos } from '@/components/Videosectionaccueil'
 
 export const revalidate = 3600
 
@@ -28,7 +28,7 @@ export default async function HomePage() {
   const { data, pagination } = paginatedProducts
 
   return (
-    <div className='flex flex-col gap-12 md:gap-16 pb-16'>
+    <div className='flex flex-col gap-8 md:gap-16 pb-8'>
       {/* 1. HERO SLIDER BANNER */}
       <section aria-label='Bannières publicitaires'>
         <HeroSlider />
@@ -49,7 +49,7 @@ export default async function HomePage() {
         />
       </div>
 
-      <VideoSectionAccueil />
+      <HealthVideos />
     </div>
   )
 }

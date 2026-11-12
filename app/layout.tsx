@@ -7,6 +7,7 @@ import { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import Marquee from '@/components/Marquee'
 
 const notoSans = Noto_Sans({
   subsets: ['latin', 'latin-ext'],
@@ -50,6 +51,7 @@ export default function RootLayout({
 
       <body className='antialiased'>
         <CartProvider>
+          <Marquee />
           <NavbarElement />
           <main>{children}</main>
           <Footer />
