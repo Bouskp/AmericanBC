@@ -168,7 +168,7 @@ export function ProductInfo({ product }: { product: Product }) {
               key={active}
               className='inline-flex items-center gap-1.5 rounded-full border border-[#2B4235]/25 bg-[#2B4235]/[0.04] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.04em] text-[#2B4235]'
             >
-              <Leaf className='h-3 w-3' strokeWidth={2} />
+              <Leaf className='h-6 w-6' strokeWidth={2} />
               {active}
             </span>
           ))}
@@ -186,7 +186,7 @@ export function ProductInfo({ product }: { product: Product }) {
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
             className='flex h-11 w-11 items-center justify-center text-[#231F1A] transition hover:text-[#2B4235]'
           >
-            <Minus className='h-4 w-4' />
+            <Minus className='h-6 w-6' />
           </button>
           <span className='w-8 text-center text-sm font-medium tabular-nums'>
             {quantity}

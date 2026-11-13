@@ -3,7 +3,8 @@
 const DEFAULT_MESSAGES = [
   'Produits 100% originaux et authentiques',
   '2 dermo-conseillères spécialisées pour vous guider dans vos choix',
-  '💳 Paiement Mobile Money accepté(Wave, Orange Money)',
+  'Paiement Mobile Money accepté(Wave, Orange Money)',
+  'coursiers disponibles et Retrouvez nous à la Riviera Abatta carrefour nouveau goudron',
 ]
 
 export default function Marquee({ messages = DEFAULT_MESSAGES, speed = 70 }) {

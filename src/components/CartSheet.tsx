@@ -105,32 +105,33 @@ export function CartSheet() {
                           Math.max(1, (item.quantity || 1) - 1),
                         )
                       }
-                      className='w-7 h-full flex items-center justify-center text-gray-400 hover:text-black transition-colors active:bg-gray-50'
+                      className='w-7 h-full flex items-center justify-center text-black transition-colors active:bg-gray-50'
                       aria-label='Diminuer la quantité'
                     >
-                      <Minus className='h-2.5 w-2.5' />
+                      <Minus className='h-6 w-6' />
                     </button>
-                    <span className='w-6 text-center font-sans text-xs text-black font-light select-none'>
+
+                    <span className='w-6 text-center font-sans text-sm text-black font-light select-none'>
                       {item.quantity}
                     </span>
                     <button
                       onClick={() =>
                         updateQuantity(item.id, (item.quantity || 1) + 1)
                       }
-                      className='w-7 h-full flex items-center justify-center text-gray-400 hover:text-black transition-colors active:bg-gray-50'
+                      className='w-7 h-full flex items-center justify-center text-black transition-colors active:bg-gray-50'
                       aria-label='Augmenter la quantité'
                     >
-                      <Plus className='h-2.5 w-2.5' />
+                      <Plus className='h-5 w-5' />
                     </button>
                   </div>
 
                   {/* Bouton de Suppression Rapide au bout de la ligne */}
                   <button
                     onClick={() => removeItem(item.id)}
-                    className='text-gray-300 hover:text-black p-1 transition-colors shrink-0'
+                    className='text-black p-1 transition-colors shrink-0'
                     aria-label="Retirer l'article"
                   >
-                    <X className='h-3.5 w-3.5 stroke-[1.5]' />
+                    <X className='h-5 w-5 stroke-[1.5]' />
                   </button>
                 </div>
               ))

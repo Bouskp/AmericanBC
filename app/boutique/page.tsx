@@ -1,3 +1,6 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { X } from 'lucide-react'
 import ProductFilters from '@/components/ProductFilters'
 import { ProductGrid } from '@/components/ProductGrid'
 import Pagination from '@/components/Pagination'
@@ -10,15 +13,44 @@ import {
 } from '../../types/wooCommerceApi'
 
 const PER_PAGE = 30
+const BASE_PATH = '/boutique' // ← adaptez à l'URL réelle de cette page
 
 interface PageProps {
   searchParams: Promise<{ page?: string; category?: string; brand?: string }>
 }
 
+/* ─── SEO ─── */
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const params = await searchParams
+  const [categories, brands] = await Promise.all([
+    getAllCategories(),
+    getAllBrands(),
+  ])
+  const category = categories.find((c) => c.slug === params.category)
+  const brand = brands.find((b) => b.slug === params.brand)
+  const page = Number(params.page) || 1
+
+  const name = category?.name || brand?.name || 'Boutique'
+  const qs = new URLSearchParams()
+  if (category) qs.set('category', category.slug)
+  else if (brand) qs.set('brand', brand.slug)
+  if (page > 1) qs.set('page', String(page))
+  const query = qs.toString()
+
+  return {
+    title: page > 1 ? `${name} – Page ${page}` : name,
+    description: `Découvrez notre sélection ${
+      category || brand ? `« ${name} »` : 'de produits'
+    } avec livraison rapide à Abidjan et paiement à la livraison.`,
+    alternates: { canonical: `${BASE_PATH}${query ? `?${query}` : ''}` },
+  }
+}
+
 export default async function ProductsPage({ searchParams }: PageProps) {
   const params = await searchParams
   const page = Number(params.page) || 1
-  const perPage = PER_PAGE
 
   const [allCategories, allBrands] = await Promise.all([
     getAllCategories(),
@@ -33,54 +65,84 @@ export default async function ProductsPage({ searchParams }: PageProps) {
 
   let result
   if (category) {
-    result = await getProductByCategoryPagination(category.id, page, perPage)
+    result = await getProductByCategoryPagination(category.id, page, PER_PAGE)
   } else if (brand) {
-    result = await getProductByBrandPagination(brand.id, page, perPage)
+    result = await getProductByBrandPagination(brand.id, page, PER_PAGE)
   } else {
-    result = await getPaginatedProducts(page, perPage)
+    result = await getPaginatedProducts(page, PER_PAGE)
   }
   const { data: products, pagination } = result
 
-  // Détermination du titre de la collection en cours
   const currentTitle = category?.name || brand?.name || 'Boutique'
+  const hasFilter = Boolean(category || brand)
 
   return (
-    <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16'>
-      {/* En-tête de la Collection Épuré */}
-      <header className='mb-12 border-b border-gray-100 pb-8 text-left'>
-        <h1 className='font-serif text-3xl md:text-4xl font-bold text-brand-red tracking-wide lowercase uppercase'>
+    <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-16'>
+      {/* ─── En-tête ─── */}
+      <header className='mb-8 md:mb-12 border-b border-gray-200 pb-6 md:pb-8'>
+        <h1 className='font-serif text-3xl md:text-5xl font-bold text-brand-red tracking-wide uppercase'>
           {currentTitle}
         </h1>
-        <p className='mt-2 font-sans text-xs uppercase tracking-[0.14em] text-brand-red'>
-          {pagination.total} produit{pagination.total > 1 ? 's' : ''} trouvé
+        <p className='mt-3 font-sans text-sm md:text-base text-secondary'>
+          <span className='font-semibold text-primary'>{pagination.total}</span>{' '}
+          produit{pagination.total > 1 ? 's' : ''} trouvé
           {pagination.total > 1 ? 's' : ''}
         </p>
+
+        {/* Filtre actif, effaçable en un clic */}
+        {hasFilter && (
+          <Link
+            href={BASE_PATH}
+            className='mt-4 inline-flex items-center gap-2 rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-1.5 text-sm font-medium text-brand-red transition-colors hover:bg-brand-red hover:text-white'
+          >
+            {currentTitle}
+            <X className='h-4 w-4' aria-hidden />
+            <span className='sr-only'>Effacer le filtre</span>
+          </Link>
+        )}
       </header>
 
-      {/* Grille principale : Layout asymétrique et aéré */}
-      <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-10 items-start'>
-        {/* Barre latérale des filtres - Alignée à gauche, fine et discrète */}
-        <aside className='lg:col-span-3 w-full lg:sticky lg:top-24 border-t lg:border-t-0 pt-6 lg:pt-0 border-gray-100'>
-          <h2 className='font-sans text-xs font-bold uppercase tracking-[0.14em] text-black mb-6'>
+      <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-8 items-start'>
+        {/* ─── Filtres ─── */}
+        <aside className='lg:col-span-3 w-full lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto rounded-2xl border border-gray-200 bg-brand-cream p-5'>
+          <h2 className='font-sans text-sm font-bold uppercase tracking-[0.12em] text-primary mb-5'>
             Filtrer par
           </h2>
           <ProductFilters categories={categories} brands={brands} />
         </aside>
 
-        {/* Section principale : Grille de produits */}
-        <main className='lg:col-span-9 w-full space-y-12'>
-          <ProductGrid
-            products={products.map((p) => ({
-              ...p,
-              id: p.id.toString(),
-              images: p.images.map((p) => p.src),
-            }))}
-          />
+        {/* ─── Produits ─── */}
+        <main className='lg:col-span-9 w-full space-y-10'>
+          {products.length > 0 ? (
+            <ProductGrid
+              products={products.map((p) => ({
+                ...p,
+                id: p.id.toString(),
+                images: p.images.map((img) => img.src),
+              }))}
+            />
+          ) : (
+            <div className='rounded-2xl border border-dashed border-gray-300 py-16 text-center'>
+              <p className='text-lg font-semibold text-primary'>
+                Aucun produit ne correspond à votre sélection.
+              </p>
+              <Link
+                href={BASE_PATH}
+                className='mt-4 inline-block rounded-full bg-brand-red px-6 py-2.5 text-sm font-medium text-white hover:bg-brand-red-dark'
+              >
+                Voir tous les produits
+              </Link>
+            </div>
+          )}
 
-          {/* Pagination isolée avec de l'espace */}
-          <div className='pt-8 border-t border-gray-100 flex justify-center'>
-            <Pagination currentPage={page} totalPages={pagination.totalPages} />
-          </div>
+          {pagination.totalPages > 1 && (
+            <div className='pt-8 border-t border-gray-200 flex justify-center'>
+              <Pagination
+                currentPage={page}
+                totalPages={pagination.totalPages}
+              />
+            </div>
+          )}
         </main>
       </div>
     </div>
