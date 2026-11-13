@@ -1,8 +1,8 @@
 // components/Marquee.jsx
 
 const DEFAULT_MESSAGES = [
-  '🚚 Livraison offerte dès 50 000 FCFA',
-  '🔥 -20% sur la nouvelle collection',
+  'Produits 100% originaux et authentiques',
+  '2 dermo-conseillères spécialisées pour vous guider dans vos choix',
   '💳 Paiement Mobile Money accepté(Wave, Orange Money)',
 ]
 
