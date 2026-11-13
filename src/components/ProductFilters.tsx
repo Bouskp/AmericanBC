@@ -14,9 +14,11 @@ interface Term {
 export default function ProductFilters({
   categories,
   brands,
+  onChange,
 }: {
   categories: Term[]
   brands: Term[]
+  onChange?: () => void
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -34,6 +36,7 @@ export default function ProductFilters({
     params.delete(key === 'category' ? 'brand' : 'category')
     const qs = params.toString()
     router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+    onChange?.() // ferme le panneau mobile après un choix
   }
 
   return (

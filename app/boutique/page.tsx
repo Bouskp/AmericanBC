@@ -1,7 +1,9 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { X } from 'lucide-react'
 import ProductFilters from '@/components/ProductFilters'
+import MobileFilters from '@/components/filter/MobileFilter'
 import { ProductGrid } from '@/components/ProductGrid'
 import Pagination from '@/components/Pagination'
 import {
@@ -13,7 +15,7 @@ import {
 } from '../../types/wooCommerceApi'
 
 const PER_PAGE = 30
-const BASE_PATH = '/boutique' // ← adaptez à l'URL réelle de cette page
+const BASE_PATH = '/boutique'
 
 interface PageProps {
   searchParams: Promise<{ page?: string; category?: string; brand?: string }>
@@ -77,38 +79,54 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   const hasFilter = Boolean(category || brand)
 
   return (
-    <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-10 md:py-16'>
+    <div className='max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-6 md:py-16'>
       {/* ─── En-tête ─── */}
-      <header className='mb-8 md:mb-12 border-b border-gray-200 pb-6 md:pb-8'>
-        <h1 className='font-serif text-3xl md:text-5xl font-bold text-brand-red tracking-wide uppercase'>
+      <header className='mb-6 md:mb-12 border-b border-gray-200 pb-5 md:pb-8'>
+        <h1 className='font-serif text-2xl md:text-5xl font-bold text-brand-red tracking-wide uppercase'>
           {currentTitle}
         </h1>
-        <p className='mt-3 font-sans text-sm md:text-base text-secondary'>
-          <span className='font-semibold text-primary'>{pagination.total}</span>{' '}
-          produit{pagination.total > 1 ? 's' : ''} trouvé
-          {pagination.total > 1 ? 's' : ''}
-        </p>
 
-        {/* Filtre actif, effaçable en un clic */}
-        {hasFilter && (
-          <Link
-            href={BASE_PATH}
-            className='mt-4 inline-flex items-center gap-2 rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-1.5 text-sm font-medium text-brand-red transition-colors hover:bg-brand-red hover:text-white'
-          >
-            {currentTitle}
-            <X className='h-4 w-4' aria-hidden />
-            <span className='sr-only'>Effacer le filtre</span>
-          </Link>
-        )}
+        {/* Compteur + pastille : desktop uniquement */}
+        <div className='hidden lg:block'>
+          <p className='mt-3 font-sans text-base text-secondary'>
+            <span className='font-semibold text-primary'>
+              {pagination.total}
+            </span>{' '}
+            produit{pagination.total > 1 ? 's' : ''} trouvé
+            {pagination.total > 1 ? 's' : ''}
+          </p>
+          {hasFilter && (
+            <Link
+              href={BASE_PATH}
+              className='mt-4 inline-flex items-center gap-2 rounded-full border border-brand-red/30 bg-brand-red/5 px-4 py-1.5 text-sm font-medium text-brand-red transition-colors hover:bg-brand-red hover:text-white'
+            >
+              {currentTitle}
+              <X className='h-4 w-4' aria-hidden />
+              <span className='sr-only'>Effacer le filtre</span>
+            </Link>
+          )}
+        </div>
       </header>
 
-      <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-8 items-start'>
-        {/* ─── Filtres ─── */}
-        <aside className='lg:col-span-3 w-full lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto rounded-2xl border border-gray-200 bg-brand-cream p-5'>
-          <h2 className='font-sans text-sm font-bold uppercase tracking-[0.12em] text-primary mb-5'>
+      {/* ─── Barre de filtres mobile (collante) ─── */}
+      <Suspense fallback={null}>
+        <MobileFilters
+          categories={categories}
+          brands={brands}
+          total={pagination.total}
+          activeLabel={hasFilter ? currentTitle : undefined}
+        />
+      </Suspense>
+
+      <div className='grid grid-cols-1 lg:grid-cols-12 gap-x-10 lg:gap-x-16 gap-y-10 items-start'>
+        {/* ─── Filtres (desktop uniquement) ─── */}
+        <aside className='hidden lg:block lg:col-span-3 w-full lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl border border-gray-200 bg-brand-cream p-6'>
+          <h2 className='mb-6 border-b border-gray-200 pb-4 font-sans text-sm font-bold uppercase tracking-[0.12em] text-primary'>
             Filtrer par
           </h2>
-          <ProductFilters categories={categories} brands={brands} />
+          <Suspense fallback={null}>
+            <ProductFilters categories={categories} brands={brands} />
+          </Suspense>
         </aside>
 
         {/* ─── Produits ─── */}
